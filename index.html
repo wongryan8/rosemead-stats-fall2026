@@ -26,9 +26,14 @@
         .game-card { overflow: hidden; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; background: #ffffff; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; }
         .game-title { font-size: 1.25rem; margin: 0; font-weight: bold; text-align: left; color: #1f2937; border-left: 4px solid #4b5563; padding-left: 10px; }
         .chart-wrapper { position: relative; width: 100%; overflow-x: auto; background: #ffffff; border-radius: 6px; padding: 10px; box-sizing: border-box; border: 1px solid #e5e7eb; }
+        .chart-controls { display:flex; align-items:center; gap:8px; padding:2px 4px 7px; font-size:.75rem; color:#6b7280; }
+        .chart-zoom { flex:1; min-width:90px; accent-color:#6b7280; height:28px; }
+        .chart-zoom-value { min-width:42px; text-align:right; font-weight:700; color:#4b5563; }
+        .chart-reset { border:1px solid #d1d5db; background:#fff; color:#4b5563; border-radius:5px; padding:4px 7px; font-size:.72rem; cursor:pointer; }
+        .chart-scroll { width:100%; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; }
         svg { display: block; background: #ffffff; }
         .chart-dot { cursor: pointer; transition: r 0.15s ease; }
-        .chart-dot:hover, .chart-dot:focus { r: 7.5px; filter: brightness(1.1); outline: none; }
+        .chart-dot:hover, .chart-dot:focus { r: 8.5px; filter: brightness(1.1); outline: none; }
         .tooltip { position: absolute; background: rgba(17, 24, 39, 0.95); color: #ffffff; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; pointer-events: none; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100; max-width: 280px; line-height: 1.4; border-left: 4px solid #9ca3af; }
         .legend { display: flex; justify-content: flex-start; gap: 20px; margin-top: -5px; padding-left: 5px; }
         .legend-item { display: flex; align-items: center; gap: 6px; }
@@ -109,6 +114,9 @@
             .game-card { padding: 12px; gap: 10px; }
             .game-title { font-size: 1.05rem; padding-left: 8px; }
             .chart-wrapper { padding: 4px; }
+            .chart-controls { padding: 1px 3px 6px; font-size:.7rem; }
+            .chart-zoom-value { min-width:38px; }
+            .tooltip { max-width: 190px; font-size: .72rem; line-height: 1.25; padding: 5px 7px; border-left-width: 3px; }
             .chart-wrapper svg { max-width: none; }
             .legend { gap: 12px; font-size: .8rem; }
             .admin-link { top: 12px; right: 12px; font-size: .75rem; min-height: 40px; padding: 8px 4px; }
@@ -216,7 +224,7 @@ button, input, textarea, select { font: inherit; }
         <div class="games-grid">
             <div class="game-card">
                 <div class="game-title" id="g1-title">Matchup 1</div>
-                <div class="chart-wrapper"><div id="g1-chart"></div><div id="g1-tooltip" class="tooltip"></div></div>
+                <div class="chart-wrapper"><div class="chart-controls"><span>Zoom</span><input class="chart-zoom" id="g1-zoom" type="range" min="80" max="180" value="100" step="10" aria-label="Chart zoom"><span class="chart-zoom-value" id="g1-zoom-value">100%</span><button class="chart-reset" type="button" onclick="resetChartZoom('g1')">Reset</button></div><div class="chart-scroll"><div id="g1-chart"></div></div><div id="g1-tooltip" class="tooltip"></div></div>
                 <div class="legend" id="g1-legend"></div>
                 <button type="button" class="admin-link" onclick="openAdminModal('g1'); return false;">Edit Logs</button>
                 <div id="g1-warnings"></div>
@@ -224,7 +232,7 @@ button, input, textarea, select { font: inherit; }
             </div>
             <div class="game-card">
                 <div class="game-title" id="g2-title">Matchup 2</div>
-                <div class="chart-wrapper"><div id="g2-chart"></div><div id="g2-tooltip" class="tooltip"></div></div>
+                <div class="chart-wrapper"><div class="chart-controls"><span>Zoom</span><input class="chart-zoom" id="g2-zoom" type="range" min="80" max="180" value="100" step="10" aria-label="Chart zoom"><span class="chart-zoom-value" id="g2-zoom-value">100%</span><button class="chart-reset" type="button" onclick="resetChartZoom('g2')">Reset</button></div><div class="chart-scroll"><div id="g2-chart"></div></div><div id="g2-tooltip" class="tooltip"></div></div>
                 <div class="legend" id="g2-legend"></div>
                 <button type="button" class="admin-link" onclick="openAdminModal('g2'); return false;">Edit Logs</button>
                 <div id="g2-warnings"></div>
@@ -269,36 +277,18 @@ button, input, textarea, select { font: inherit; }
     var leagueData = {
         w1: { 
             g1: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced\nFN 1-0 Ryan Nick / B Leon\nAN 1-1 Andrew H Jae / HT JT\nFN 2-1 Quake Grant / CT Victor\nAN 2-2 Anthony G Duke / B Cory\nFN 3-2 Jacob (Zuko) Quack / HT Andrew H\nAN 3-3 Duke Victor / B Ryan\nFN 4-3 Stephen Thom / CT Quake\nAN 4-4 Ben (Chain) Maarten / HT Nick\nFN 5-4 Nick Ryan / B Jae\nAN 5-5 Leon Andrew H / B Grant\nFN 6-5 JT Cory / HT Duke\nAN 6-6 Jae Anthony G / CT Maarten\nFN 7-6 Quack Quake / B Victor\nAN 7-7 Victor Duke / HT Cory\nFN 8-7 Grant Stephen / B Andrew H\nAN 8-8 Maarten Ben (Chain) / B Quake\nFN 9-8 Ryan Jacob (Zuko) / HT Leon\nAN 9-9 Abe Jacob / B JT\nFN 10-9 Quake Nick / CT Grant\nAN 10-10 Andrew H Leon / B Stephen\nFN 11-10 Cory JT / HT Jae\nAN 11-11 Anthony G Duke / B Thom\nFN 12-11 Thom Ryan / B Duke\nAN 12-12 Duke Victor / HT Ryan\nFN 13-12 Jacob (Zuko) Grant / B Maarten\nAN 13-13 Leon Andrew H / HT Quack\nFN 14-13 Ryan Quack / B Nick\nFN 15-13 Stephen Cory / B Jae" }, 
-            g2: { name: "Earth Kingdom vs Water Tribe", t1: "Earth Kingdom", t2: "Water Tribe", raw: "Start,0,0,Commenced\nWT 1-0 Alvin Andrew P / B Andy (Ender)\nEK 1-1 Andy (Ender) Jordan (Sugarloaf) / HT Matt\nWT 2-1 Dylan Matt / CT Derek\nEK 2-2 Antonio Daniel / B Alvin\nWT 3-2 Jimmy Shane / HT Kevin\nEK 3-3 Eok Kevin / B Andrew P\nWT 4-3 Shane Simeon (Quartz) / CT Eok\nEK 4-4 Nathaniel Owen / HT Andrew P\nWT 5-4 Tony Anderson / B Antonio\nEK 5-5 Derek Google / B Shane\nWT 6-5 Andrew P Alvin / HT Daniel\nEK 6-6 Winston Antonio / CT Dylan\nWT 7-6 Matt Dylan / B Eok\nEK 7-7 Jordan (Sugarloaf) Andy (Ender) / HT Alvin\nWT 8-7 Natalie Jimmy / B Derek\nEK 8-8 Daniel Eok / B Tony\nWT 9-8 Anderson Shane / HT Andy (Ender)\nEK 9-9 Kevin Nathaniel / CT Jimmy\nWT 10-9 Simeon (Quartz) Tony / B Nathaniel\nEK 10-10 Owen Derek / HT Anderson\nWT 11-10 Alvin Matt / B Google\nEK 11-11 Google Winston / B Simeon (Quartz)\nWT 12-11 Dylan Andrew P / HT Alvin\nWT 13-11 Jimmy Shane / B Winston\nWT 14-11 Tony Heidy / HT Anderson\nWT 15-11 Anderson Simeon (Quartz) / B Google" } 
+            g2: { name: "Earth Kingdom vs Water Tribe", t1: "Earth Kingdom", t2: "Water Tribe", raw: "Start,0,0,Commenced\nWT 1-0 Alvin Andrew P / B Andy (Ender)\nEK 1-1 Andy (Ender) Jordan (Sugarloaf) / HT Matt\nWT 2-1 Dylan Matt / CT Derek\nEK 2-2 Antonio Daniel / B Alvin\nWT 3-2 Jimmy Mitchell / HT Kevin\nEK 3-3 Eok Kevin / B Andrew P\nWT 4-3 Shane Simeon (Quartz) / CT Eok\nEK 4-4 Nathaniel Owen / HT Andrew P\nWT 5-4 Tony Anderson / B Antonio\nEK 5-5 Derek Google / B Shane\nWT 6-5 Andrew P Alvin / HT Daniel\nEK 6-6 Winston Antonio / CT Dylan\nWT 7-6 Matt Dylan / B Eok\nEK 7-7 Jordan (Sugarloaf) Andy (Ender) / HT Alvin\nWT 8-7 Mitchell Jimmy / B Derek\nEK 8-8 Daniel Eok / B Tony\nWT 9-8 Anderson Shane / HT Andy (Ender)\nEK 9-9 Kevin Nathaniel / CT Jimmy\nWT 10-9 Simeon (Quartz) Tony / B Nathaniel\nEK 10-10 Owen Derek / HT Anderson\nWT 11-10 Alvin Matt / B Google\nEK 11-11 Google Winston / B Mitchell\nWT 12-11 Dylan Andrew P / HT Alvin\nWT 13-11 Jimmy Shane / B Winston\nWT 14-11 Tony Mitchell / HT Anderson\nWT 15-11 Anderson Simeon (Quartz) / B Google" } 
         },
         w2: { 
             g1: { name: "Fire Nation vs Earth Kingdom", t1: "Fire Nation", t2: "Earth Kingdom", raw: "Start,0,0,Commenced\nFN 1-0 Cory Quack / B Kim\nAN 1-1 Kim Duke / B Cory\nFN 2-1 Quack Webster / B Kim\nAN 2-2 Andrew H Kim / B Cory\nFN 3-2 Webster Cory / B Abe\nAN 3-3 Anthony G Kim / B Quack\nFN 4-3 Cory Quack / B Jae\nAN 4-4 Duke Kim / B Webster\nFN 5-4 Quack Webster / B Leon\nAN 5-5 Kim Anthony G / B Webster\nFN 6-5 Webster Cory / B Victor\nAN 6-6 Leon Kim / B Ben L\nFN 7-6 Cory Quack / B Maarten\nAN 7-7 Kim Duke / B Grant\nFN 8-7 Quack Webster / HT Jacob\nAN 8-8 Andrew H Kim / HT Cory\nFN 9-8 Webster Cory / HT Jae\nAN 9-9 Anthony G Jacob / HT Quack\nFN 10-9 Cory Quack / HT Leon\nAN 10-10 Kim Duke / HT Quack\nFN 11-10 Quack Webster / HT Abe\nAN 11-11 Kim Andrew H / HT Webster\nFN 12-11 Webster Cory / CT Victor\nAN 12-12 Kim Anthony G / CT Ben L\nFN 13-12 Cory Quack / CT Andrew H\nAN 13-13 Kim Jacob / CT Nick\nFN 14-13 Quack Webster /\nFN 15-13 Webster Cory /" }, 
             g2: { name: "Air Nomads vs Water Tribe", t1: "Air Nomads", t2: "Water Tribe", raw: "Start,0,0,Commenced\nWT 1-0 Dylan Shane / B Google\nEK 1-1 Google Kevin / B Dylan CT Dylan\nWT 2-1 Shane BLUE / B Google\nEK 2-2 Kevin Google / B Shane CT Shane\nWT 3-2 BLUE Dylan / B Kevin\nEK 3-3 Uniss (Sonny) Google / B BLUE\nWT 4-3 Dylan BLUE / B Uniss (Sonny)\nEK 4-4 Andy (Ender) Google / B BLUE\nWT 5-4 Shane Dylan / B Uniss (Sonny)\nEK 5-5 Google Kevin / B Alvin\nWT 6-5 BLUE Shane / B Uniss (Sonny)\nEK 6-6 Kevin Uniss (Sonny) / B Tony\nWT 7-6 Dylan Shane / B Uniss (Sonny)\nEK 7-7 Kevin Andy (Ender) / B Andrew P\nWT 8-7 Shane BLUE / HT Google\nEK 8-8 Google Kevin / HT Dylan\nWT 9-8 BLUE Dylan / HT Kevin\nEK 9-9 Uniss (Sonny) Google / HT Shane\nWT 10-9 Dylan Shane / HT Kevin\nEK 10-10 Kevin Uniss (Sonny) / HT BLUE\nWT 11-10 Shane BLUE / HT Uniss (Sonny)\nEK 11-11 Google Kevin / HT Matt\nWT 12-11 BLUE Dylan / HT Uniss (Sonny)\nWT 13-11 Dylan Shane / CT Uniss (Sonny)\nWT 14-11 Shane BLUE /\nWT 15-11 BLUE Dylan /" }
         },
-        w3: { 
-            g1: { name: "Air Nomads vs Earth Kingdom", t1: "Air Nomads", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" }, 
-            g2: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced" } 
-        },
-        w4: { 
-            g1: { name: "Earth Kingdom vs Water Tribe", t1: "Earth Kingdom", t2: "Water Tribe", raw: "Start,0,0,Commenced" }, 
-            g2: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced" } 
-        },
-        w5: { 
-            g1: { name: "Water Tribe vs Air Nomads", t1: "Water Tribe", t2: "Air Nomads", raw: "Start,0,0,Commenced" }, 
-            g2: { name: "Fire Nation vs Earth Kingdom", t1: "Fire Nation", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" } 
-        },
-        w6: { 
-            g1: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced" }, 
-            g2: { name: "Air Nomads vs Earth Kingdom", t1: "Air Nomads", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" } 
-        },
-        w7: { 
-            g1: { name: "Semifinals Match 1", t1: "Seed 1", t2: "Seed 4", raw: "Start,0,0,Semifinal A commenced" }, 
-            g2: { name: "Semifinals Match 2", t1: "Seed 2", t2: "Seed 3", raw: "Start,0,0,Semifinal B commenced" } 
-        },
-        w8: { 
-            g1: { name: "Championship Final", t1: "Finalist A", t2: "Finalist B", raw: "Start,0,0,Gold medal final match" }, 
-            g2: { name: "Consolation Game", t1: "Consolation A", t2: "Consolation B", raw: "Start,0,0,Bronze medal consolation" } 
-        }
+        w3: { g1: { name: "Air Nomads vs Earth Kingdom", t1: "Air Nomads", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" }, g2: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced" } },
+        w4: { g1: { name: "Earth Kingdom vs Water Tribe", t1: "Earth Kingdom", t2: "Water Tribe", raw: "Start,0,0,Commenced" }, g2: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced" } },
+        w5: { g1: { name: "Water Tribe vs Air Nomads", t1: "Water Tribe", t2: "Air Nomads", raw: "Start,0,0,Commenced" }, g2: { name: "Fire Nation vs Earth Kingdom", t1: "Fire Nation", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" } },
+        w6: { g1: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced" }, g2: { name: "Air Nomads vs Earth Kingdom", t1: "Air Nomads", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" } },
+        w7: { g1: { name: "Semifinals Match 1", t1: "Seed 1", t2: "Seed 4", raw: "Start,0,0,Semifinal A commenced" }, g2: { name: "Semifinals Match 2", t1: "Seed 2", t2: "Seed 3", raw: "Start,0,0,Semifinal B commenced" } },
+        w8: { g1: { name: "Championship Final", t1: "Finalist A", t2: "Finalist B", raw: "Start,0,0,Gold medal final match" }, g2: { name: "Consolation Game", t1: "Consolation A", t2: "Consolation B", raw: "Start,0,0,Bronze medal consolation" } }
     };
     var activeWeek = 1; var targetModalGame = "g1"; var CODE_PASS = "fall2026";
     var tableSortState = { g1: { index: 0, dir: "asc" }, g2: { index: 0, dir: "asc" } };
@@ -317,6 +307,24 @@ button, input, textarea, select { font: inherit; }
         return false;
     }
     function closeAdminModal() { document.getElementById("adminModal").style.display = "none"; }
+    function setupChartZoom(gKey, svg, baseW) {
+        var slider = document.getElementById(gKey + "-zoom");
+        var value = document.getElementById(gKey + "-zoom-value");
+        if (!slider || !svg) return;
+        slider.oninput = function() {
+            var scale = Number(slider.value) / 100;
+            var width = Math.round(baseW * scale);
+            svg.setAttribute("width", width);
+            svg.style.width = width + "px";
+            if (value) value.textContent = slider.value + "%";
+        };
+    }
+
+    function resetChartZoom(gKey) {
+        var slider = document.getElementById(gKey + "-zoom");
+        if (slider) { slider.value = 100; slider.dispatchEvent(new Event("input")); }
+    }
+
     function saveAndPlot() {
         var game = leagueData["w" + activeWeek] && leagueData["w" + activeWeek][targetModalGame];
         if (!game) { closeAdminModal(); return; }
@@ -676,8 +684,8 @@ button, input, textarea, select { font: inherit; }
 
                     chartDiv.innerHTML = "";
                     if (pts.length > 0) {
-                        var pL = 45, pR = 45, pT = 25, pB = 40, w = 900, h = 200, cH = h - pT - pB; var step = (w - pL - pR) / (pts.length - 1 || 1); var yMax = maxScore === 0 ? 3 : maxScore + 1; var ns = "http://www.w3.org/2000/svg"; var svg = document.createElementNS(ns, "svg");
-                        svg.setAttribute("width", "100%"); svg.setAttribute("height", h); svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+                        var pL = 45, pR = 45, pT = 25, pB = 40, baseW = Math.max(900, pts.length * 55), w = baseW, h = 210, cH = h - pT - pB; var step = (w - pL - pR) / (pts.length - 1 || 1); var yMax = maxScore === 0 ? 3 : maxScore + 1; var ns = "http://www.w3.org/2000/svg"; var svg = document.createElementNS(ns, "svg");
+                        svg.setAttribute("width", w); svg.setAttribute("height", h); svg.setAttribute("viewBox", "0 0 " + w + " " + h); svg.style.width = w + "px"; svg.style.maxWidth = "none";
                         for (var i = 0; i <= yMax; i++) { 
                             var y = h - pB - ((i / yMax) * cH); var line = document.createElementNS(ns, "line"); line.setAttribute("x1", pL); line.setAttribute("y1", y); line.setAttribute("x2", w - pR); line.setAttribute("y2", y); line.setAttribute("stroke", "#f3f4f6"); svg.appendChild(line);
                             var txt = document.createElementNS(ns, "text"); txt.setAttribute("x", pL - 8); txt.setAttribute("y", y + 4); txt.setAttribute("font-size", "10"); txt.setAttribute("fill", "#9ca3af"); txt.setAttribute("text-anchor", "end"); txt.textContent = i; svg.appendChild(txt);
@@ -697,7 +705,7 @@ button, input, textarea, select { font: inherit; }
                         pathA.setAttribute("d", p1.join(""));
                         pathA.setAttribute("fill", "none");
                         pathA.setAttribute("stroke", c1);
-                        pathA.setAttribute("stroke-width", "2.5");
+                        pathA.setAttribute("stroke-width", "3.5");
                         pathA.setAttribute("pointer-events", "none");
                         svg.appendChild(pathA);
 
@@ -705,7 +713,7 @@ button, input, textarea, select { font: inherit; }
                         pathB.setAttribute("d", p2.join(""));
                         pathB.setAttribute("fill", "none");
                         pathB.setAttribute("stroke", c2);
-                        pathB.setAttribute("stroke-width", "2.5");
+                        pathB.setAttribute("stroke-width", "3.5");
                         pathB.setAttribute("pointer-events", "none");
                         svg.appendChild(pathB);
 
@@ -728,7 +736,7 @@ button, input, textarea, select { font: inherit; }
                                 cA.setAttribute("class", "chart-dot");
                                 cA.setAttribute("cx", savedXA);
                                 cA.setAttribute("cy", savedY1);
-                                cA.setAttribute("r", "5");
+                                cA.setAttribute("r", "6");
                                 cA.setAttribute("fill", c1);
                                 cA.setAttribute("tabindex", "0");
                                 cA.onmouseover = function(e) {
@@ -747,7 +755,7 @@ button, input, textarea, select { font: inherit; }
                                 cB.setAttribute("class", "chart-dot");
                                 cB.setAttribute("cx", savedXB);
                                 cB.setAttribute("cy", savedY2);
-                                cB.setAttribute("r", "5");
+                                cB.setAttribute("r", "6");
                                 cB.setAttribute("fill", c2);
                                 cB.setAttribute("tabindex", "0");
                                 cB.onmouseover = function(e) {
@@ -776,6 +784,7 @@ button, input, textarea, select { font: inherit; }
                         });
 
                         chartDiv.appendChild(svg);
+                        setupChartZoom(gKey, svg, baseW);
                     } else { var blankPara = document.createElement("p"); blankPara.style.color = "#9ca3af"; blankPara.innerText = "Waiting for data... "; chartDiv.appendChild(blankPara); }
                 }
             });
