@@ -34,7 +34,7 @@
         svg { display: block; background: #ffffff; }
         .chart-dot { cursor: pointer; transition: r 0.15s ease; }
         .chart-dot:hover, .chart-dot:focus { r: 8.5px; filter: brightness(1.1); outline: none; }
-        .tooltip { position: absolute; background: rgba(17, 24, 39, 0.95); color: #ffffff; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; pointer-events: none; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100; max-width: 280px; line-height: 1.4; border-left: 4px solid #9ca3af; }
+        .tooltip { position: absolute; background: rgba(17, 24, 39, 0.78); color: #ffffff; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; pointer-events: none; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100; max-width: 280px; line-height: 1.4; border-left: 4px solid #9ca3af; }
         .legend { display: flex; justify-content: flex-start; gap: 20px; margin-top: -5px; padding-left: 5px; }
         .legend-item { display: flex; align-items: center; gap: 6px; }
         .stats-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 5px; }
@@ -116,7 +116,7 @@
             .chart-wrapper { padding: 4px; }
             .chart-controls { padding: 1px 3px 6px; font-size:.7rem; }
             .chart-zoom-value { min-width:38px; }
-            .tooltip { max-width: 190px; font-size: .72rem; line-height: 1.25; padding: 5px 7px; border-left-width: 3px; }
+            .tooltip { max-width: 145px; font-size: .68rem; line-height: 1.2; padding: 4px 6px; border-left-width: 3px; background: rgba(17,24,39,.62); }
             .chart-wrapper svg { max-width: none; }
             .legend { gap: 12px; font-size: .8rem; }
             .admin-link { top: 12px; right: 12px; font-size: .75rem; min-height: 40px; padding: 8px 4px; }
@@ -661,10 +661,15 @@ button, input, textarea, select { font: inherit; }
                     for (var k = 0; k < lines.length; k++) {
                         var parsed = parsePointLine(lines[k]);
                         if (parsed && !isNaN(parsed.a) && !isNaN(parsed.b)) {
-                            var scoreU = parsed.a, scoreT = parsed.b;
-                            var lblText = scoreU + "-" + scoreT;
+                            var scoreA = parsed.a, scoreB = parsed.b;
+                            // The compact log's score is written from the scoring team's
+                            // perspective. Re-map it to the game's t1/t2 orientation so
+                            // a t2 score such as WT 15-11 is shown as t1=11, t2=15.
+                            var t1Code = teamCodeForName(match.t1), t2Code = teamCodeForName(match.t2);
+                            if (parsed.code === t2Code) { scoreA = parsed.b; scoreB = parsed.a; }
+                            var lblText = scoreA + "-" + scoreB;
                             var hvr = parsed.play || lblText;
-                            if (scoreU > maxScore) maxScore = scoreU; if (scoreT > maxScore) maxScore = scoreT; pts.push({ lbl: lblText, scoreA: scoreU, scoreB: scoreT, textLog: hvr, teamCode: parsed.code });
+                            if (scoreA > maxScore) maxScore = scoreA; if (scoreB > maxScore) maxScore = scoreB; pts.push({ lbl: lblText, scoreA: scoreA, scoreB: scoreB, textLog: hvr, teamCode: parsed.code });
                         }
                     }
                     // Store each player's running total through every point in this game.
@@ -817,7 +822,10 @@ button, input, textarea, select { font: inherit; }
             for (var li=0; li<lines.length; li++) {
                 var parsed = parsePointLine(lines[li]);
                 if (!parsed || isNaN(parsed.a) || isNaN(parsed.b)) continue;
-                final = { a:parsed.a, b:parsed.b };
+                var t1Code = teamCodeForName(game.t1), t2Code = teamCodeForName(game.t2);
+                var scoreA = parsed.a, scoreB = parsed.b;
+                if (parsed.code === t2Code) { scoreA = parsed.b; scoreB = parsed.a; }
+                final = { a:scoreA, b:scoreB };
                 if (parsePointEvents(parsed.play).Goal.length) hasGoal = true;
             }
             return final && hasGoal ? final : null;
@@ -930,8 +938,10 @@ button, input, textarea, select { font: inherit; }
         tip.innerHTML = "<strong>" + escapeHtml(title) + "</strong>" + detailsHtml;
         tip.style.display = "block";
 
-        var left = e.clientX - wrapper.left + 15;
-        var top = e.clientY - wrapper.top - 20;
+        var left = e.clientX - wrapper.left + 12;
+        // Keep the caption above the point instead of sitting directly across
+        // the chart line. If there is not enough room above, clamp it to the top.
+        var top = e.clientY - wrapper.top - tip.offsetHeight - 12;
 
         left = Math.max(5, Math.min(left, wrapper.width - tip.offsetWidth - 5));
         top = Math.max(5, top);
