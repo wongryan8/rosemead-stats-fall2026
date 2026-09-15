@@ -1067,13 +1067,20 @@ button, input, textarea, select { font: inherit; }
         // even when the chart has been horizontally scrolled on mobile.
         var viewportW = document.documentElement.clientWidth || window.innerWidth;
         var viewportH = document.documentElement.clientHeight || window.innerHeight;
-        var left = e.clientX + 12;
+        var left;
         var top = e.clientY - tip.offsetHeight - 12;
 
-        if (left + tip.offsetWidth > viewportW - 5) {
-            left = e.clientX - tip.offsetWidth - 12;
+        // On mobile, center the tooltip around the tapped point so text is less
+        // likely to get clipped against the left edge of the viewport.
+        if (viewportW <= 700) {
+            left = e.clientX - (tip.offsetWidth / 2);
+        } else {
+            left = e.clientX + 12;
+            if (left + tip.offsetWidth > viewportW - 5) {
+                left = e.clientX - tip.offsetWidth - 12;
+            }
         }
-        left = Math.max(5, Math.min(left, viewportW - tip.offsetWidth - 5));
+        left = Math.max(8, Math.min(left, viewportW - tip.offsetWidth - 8));
 
         if (top < 5) {
             top = e.clientY + 12;
