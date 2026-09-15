@@ -34,7 +34,7 @@
         svg { display: block; background: #ffffff; }
         .chart-dot { cursor: pointer; transition: r 0.15s ease; }
         .chart-dot:hover, .chart-dot:focus { r: 8.5px; filter: brightness(1.1); outline: none; }
-        .tooltip { position: absolute; background: rgba(17, 24, 39, 0.78); color: #ffffff; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; pointer-events: none; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100; max-width: 280px; line-height: 1.4; border-left: 4px solid #9ca3af; }
+        .tooltip { position: fixed; background: rgba(17, 24, 39, 0.78); color: #ffffff; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; pointer-events: none; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100; max-width: 280px; line-height: 1.4; border-left: 4px solid #9ca3af; }
         .legend { display: flex; justify-content: flex-start; gap: 20px; margin-top: -5px; padding-left: 5px; }
         .legend-item { display: flex; align-items: center; gap: 6px; }
         .stats-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 5px; }
@@ -725,7 +725,7 @@ button, input, textarea, select { font: inherit; }
                     var participantList = getGameParticipants(activeWeek, gKey);
                     var totalPossible = (rosters[match.t1].Men.length + rosters[match.t1].Women.length + rosters[match.t2].Men.length + rosters[match.t2].Women.length);
                     var partStatus = document.getElementById(gKey + "-participation-status");
-                    if (partStatus) { partStatus.innerText = participantList.length ? ("Players attended: " + participantList.length + " of " + totalPossible) : "Participation not entered yet — edit the PARTICIPATION section in the HTML."; partStatus.style.color = participantList.length ? "#6b7280" : "#b45309"; }
+                    if (partStatus) { partStatus.innerText = participantList.length ? ("Players entered: " + participantList.length + " of " + totalPossible) : "Participation not entered yet — edit the PARTICIPATION section in the HTML."; partStatus.style.color = participantList.length ? "#6b7280" : "#b45309"; }
                     renderLogWarnings(gKey, validateGoalAssistTeams(match.raw || "", match));
                     var tHtml = "";
                     var rosterStats = getMatchRosterStats(match, gameStats, activeWeek, gKey);
@@ -1060,18 +1060,25 @@ button, input, textarea, select { font: inherit; }
 
     function showTip(e, gKey, detailsHtml, title) {
         var tip = document.getElementById(gKey + "-tooltip");
-        var wrapper = tip.parentElement.getBoundingClientRect();
-
         tip.innerHTML = "<strong>" + escapeHtml(title) + "</strong>" + detailsHtml;
         tip.style.display = "block";
 
-        var left = e.clientX - wrapper.left + 12;
-        // Keep the caption above the point instead of sitting directly across
-        // the chart line. If there is not enough room above, clamp it to the top.
-        var top = e.clientY - wrapper.top - tip.offsetHeight - 12;
+        // The tooltip is viewport-fixed so it stays next to the visible point
+        // even when the chart has been horizontally scrolled on mobile.
+        var viewportW = document.documentElement.clientWidth || window.innerWidth;
+        var viewportH = document.documentElement.clientHeight || window.innerHeight;
+        var left = e.clientX + 12;
+        var top = e.clientY - tip.offsetHeight - 12;
 
-        left = Math.max(5, Math.min(left, wrapper.width - tip.offsetWidth - 5));
-        top = Math.max(5, top);
+        if (left + tip.offsetWidth > viewportW - 5) {
+            left = e.clientX - tip.offsetWidth - 12;
+        }
+        left = Math.max(5, Math.min(left, viewportW - tip.offsetWidth - 5));
+
+        if (top < 5) {
+            top = e.clientY + 12;
+        }
+        top = Math.max(5, Math.min(top, viewportH - tip.offsetHeight - 5));
 
         tip.style.left = left + "px";
         tip.style.top = top + "px";
