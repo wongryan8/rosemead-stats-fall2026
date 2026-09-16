@@ -55,7 +55,7 @@
         .season-team-totals { margin-top: 20px; }
         .season-team-total-card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; margin-top: 10px; background: #f9fafb; }
         .season-team-total-name { font-weight: 800; font-size: 1rem; margin-bottom: 8px; }
-        .season-team-total-grid { display: grid; grid-template-columns: repeat(5, minmax(90px, 1fr)); gap: 8px; }
+        .season-team-total-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
         .season-team-total-stat { background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; text-align: center; }
         .season-team-total-stat strong { display: block; font-size: 1.05rem; margin-top: 2px; }
 
@@ -76,7 +76,9 @@
         .season-roster-table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: 0.88rem; }
         .season-roster-table th, .season-roster-table td { padding: 7px 9px; border-bottom: 1px solid #e5e7eb; text-align: center; }
         .season-roster-table th:first-child, .season-roster-table td:first-child { text-align: left; }
-        .season-roster-table thead th { background: #f3f4f6; font-weight: 800; cursor:pointer; user-select:none; } .season-roster-table thead th:hover { background:#e5e7eb; } .season-roster-table thead th.sort-asc::after { content:" ▲"; } .season-roster-table thead th.sort-desc::after { content:" ▼"; }
+        .season-roster-table thead th { background: #f3f4f6; font-weight: 800; cursor:pointer; user-select:none; position:sticky; top:0; z-index:8; } .season-roster-table thead th:hover { background:#e5e7eb; } .season-roster-table thead th.sort-asc::after { content:" ▲"; } .season-roster-table thead th.sort-desc::after { content:" ▼"; }
+        .season-roster-table th:first-child, .season-roster-table td:first-child { position:sticky; left:0; z-index:6; background:#ffffff; box-shadow:2px 0 3px rgba(0,0,0,.05); }
+        .season-roster-table thead th:first-child { z-index:10; background:#f3f4f6; }
         .season-roster-table .gender-label { color: #6b7280; font-weight: 700; }
         @media (max-width: 767px) {
             .season-standings-table { min-width: 760px; }
@@ -95,12 +97,13 @@
         .team-total-label { font-weight: 800; }
         .team-total-summary { margin-top: 12px; padding: 12px; border-radius: 8px; background: #f9fafb; border: 1px solid #e5e7eb; }
         .team-total-title { font-weight: 800; margin-bottom: 8px; }
-        .team-total-grid { display: grid; grid-template-columns: repeat(5, minmax(90px, 1fr)); gap: 8px; }
+        .team-total-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
         .team-total-stat { background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; text-align: center; }
         .team-total-stat strong { display: block; font-size: 1.05rem; margin-top: 2px; }
         @media (max-width: 767px) {
-            .team-total-grid { grid-template-columns: repeat(5, minmax(82px, 1fr)); overflow-x: auto; }
-            .team-total-stat { min-width: 82px; }
+            .team-total-grid, .season-team-total-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: hidden; }
+            .team-total-stat, .season-team-total-stat { min-width: 0; box-sizing: border-box; overflow-wrap: anywhere; }
+            .team-total-summary, .season-team-total-card { max-width: 100%; box-sizing: border-box; overflow: hidden; }
         }
         .legend { flex-wrap: wrap; row-gap: 8px; }
         @media (max-width: 767px) {
@@ -207,6 +210,11 @@ button, input, textarea, select { font: inherit; }
                 </div>
             </div>
 
+            <div class="season-duos-section">
+                <h2>🤝 Cumulative End-Zone Connections — Top 5 Duos</h2>
+                <div id="seasonDuos" class="leader-grid"></div>
+            </div>
+
             <div class="season-roster-stats">
                 <h2>👥 Individual Season Stats</h2>
                 <div id="seasonRosterStats"></div>
@@ -222,6 +230,10 @@ button, input, textarea, select { font: inherit; }
         </div>
     </div>
     <div class="panel">
+        <h2 id="weeklyDuosTitle">🤝 End-Zone Connections — Top 5 Duos</h2>
+        <div id="weeklyDuos" class="leader-grid"></div>
+    </div>
+    <div class="panel">
         <h2 id="weekDisplayTitle">Week 1 Breakdown</h2>
         <div class="games-grid">
             <div class="game-card">
@@ -229,14 +241,14 @@ button, input, textarea, select { font: inherit; }
                 <div class="chart-wrapper"><div class="chart-controls"><span>Zoom</span><input class="chart-zoom" id="g1-zoom" type="range" min="80" max="180" value="100" step="10" aria-label="Chart zoom"><span class="chart-zoom-value" id="g1-zoom-value">100%</span><button class="chart-reset" type="button" onclick="resetChartZoom('g1')">Reset</button></div><div class="chart-scroll"><div id="g1-chart"></div></div><div id="g1-tooltip" class="tooltip"></div></div>
                 <div class="legend" id="g1-legend"></div><div class="participation-status" id="g1-participation-status"></div><button type="button" class="admin-link" onclick="openAdminModal('g1'); return false;">Edit Logs</button>
                 <div id="g1-warnings"></div>
-                <div style="overflow-x:auto;"><table class="stats-table"><thead><tr><th onclick="sortGameTable('g1',0)">Player</th><th onclick="sortGameTable('g1',1)">Gender</th><th onclick="sortGameTable('g1',2)">Score</th><th onclick="sortGameTable('g1',3)">Assist</th><th onclick="sortGameTable('g1',4)">Block</th><th onclick="sortGameTable('g1',5)">Handler Turnover</th><th onclick="sortGameTable('g1',6)">Cutter Turnover</th></tr></thead><tbody id="g1-table"></tbody></table></div>
+                <div style="overflow-x:auto;"><table class="stats-table"><thead><tr><th onclick="sortGameTable('g1',0)">Player</th><th onclick="sortGameTable('g1',1)">Gender</th><th onclick="sortGameTable('g1',2)">Score</th><th onclick="sortGameTable('g1',3)">Assist</th><th onclick="sortGameTable('g1',4)">Block</th><th onclick="sortGameTable('g1',5)">Handler Turnover</th><th onclick="sortGameTable('g1',6)">Cutter Turnover</th><th onclick="sortGameTable('g1',7)">Fouls</th></tr></thead><tbody id="g1-table"></tbody></table></div>
             </div>
             <div class="game-card">
                 <div class="game-title" id="g2-title">Matchup 2</div>
                 <div class="chart-wrapper"><div class="chart-controls"><span>Zoom</span><input class="chart-zoom" id="g2-zoom" type="range" min="80" max="180" value="100" step="10" aria-label="Chart zoom"><span class="chart-zoom-value" id="g2-zoom-value">100%</span><button class="chart-reset" type="button" onclick="resetChartZoom('g2')">Reset</button></div><div class="chart-scroll"><div id="g2-chart"></div></div><div id="g2-tooltip" class="tooltip"></div></div>
                 <div class="legend" id="g2-legend"></div><div class="participation-status" id="g2-participation-status"></div><button type="button" class="admin-link" onclick="openAdminModal('g2'); return false;">Edit Logs</button>
                 <div id="g2-warnings"></div>
-                <div style="overflow-x:auto;"><table class="stats-table"><thead><tr><th onclick="sortGameTable('g2',0)">Player</th><th onclick="sortGameTable('g2',1)">Gender</th><th onclick="sortGameTable('g2',2)">Score</th><th onclick="sortGameTable('g2',3)">Assist</th><th onclick="sortGameTable('g2',4)">Block</th><th onclick="sortGameTable('g2',5)">Handler Turnover</th><th onclick="sortGameTable('g2',6)">Cutter Turnover</th></tr></thead><tbody id="g2-table"></tbody></table></div>
+                <div style="overflow-x:auto;"><table class="stats-table"><thead><tr><th onclick="sortGameTable('g2',0)">Player</th><th onclick="sortGameTable('g2',1)">Gender</th><th onclick="sortGameTable('g2',2)">Score</th><th onclick="sortGameTable('g2',3)">Assist</th><th onclick="sortGameTable('g2',4)">Block</th><th onclick="sortGameTable('g2',5)">Handler Turnover</th><th onclick="sortGameTable('g2',6)">Cutter Turnover</th><th onclick="sortGameTable('g2',7)">Fouls</th></tr></thead><tbody id="g2-table"></tbody></table></div>
             </div>
         </div>
     </div>
@@ -276,7 +288,7 @@ button, input, textarea, select { font: inherit; }
 
     var leagueData = {
         w1: { 
-            g1: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced\nFN 1-0 Mindy Cory\nAN 1-1 Bao Abe / HT Victor Nick / B Victor\nAN 1-2 Amber Anthony G / HT Mindy Jacob (Zuko) Jacob (Zuko)\nAN 1-3 Ben (Chain) Jae / B Kim / HT Amber Jae Nick Stephen / CT Nick\nFN 2-3 JT Cory / HT Andrew H\nAN 2-4 Mitchell Ben (Chain) / HT Jae Abe Webster / B Quake\nFN 3-4 Stephen Quack \nAN 3-5 Emily (Sub) Ben (Chain) \nFN 4-5 Cory Quack / B Cory / HT Webster Bao Victor Pam\nAN 4-6 Jae Kim / HT Abe Nick / CT Nick\nFN 5-6 Quack Cory / B Quake Duke / HT Jae Kim \nFN 6-6 Stephen Pam / CT Nick Stephen\nFN 7-6 Quack Pam / HT Andrew H\nAN 7-7 Jae Ben (Chain)\nFN 8-7 Ryan Quack\nFN 9-7 Pam Quake / B Quack / HT Abe\nAN 9-8 Ben (Chain) Victor\nAN 9-9 Mitchell Abe / B Mindy / CT Mindy\nFN 10-9 Webster Grant / HT Victor Mindy Anthony G / CT Mindy Nick\nAN 10-10 Mitchell Abe\nFN 11-10 Cory Jacob (Zuko) / CT Mindy\nFN 12-10 Grant Pam / B Grant Duke Webster / HT Stephen\nFN 13-10 Cory Quake / B Cory\nFN 14-10 JT Jacob (Zuko) /B Mindy / HT Abe Duke / CT Jacob (Zuko)\nFN 15-10 Stephen Cory / CT Duke" }, 
+            g1: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced\nFN 1-0 Mindy Cory\nAN 1-1 Bao Abe / HT Victor Nick / B Victor\nAN 1-2 Amber Anthony G / HT Mindy Jacob (Zuko) Jacob (Zuko)\nAN 1-3 Ben (Chain) Jae / B Kim / HT Amber Jae Nick Stephen / CT Nick\nFN 2-3 JT Cory / HT Andrew H\nAN 2-4 Mitchell Ben (Chain) / HT Jae Abe Webster / B Quake\nFN 3-4 Stephen Quack \nAN 3-5 Emily (Sub) Ben (Chain) \nFN 4-5 Cory Quack / B Cory / HT Webster Bao Victor Pam\nAN 4-6 Jae Kim / HT Abe Nick / CT Nick\nFN 5-6 Quack Cory / B Quake Duke / HT Jae Kim \nFN 6-6 Stephen Pam / CT Nick Stephen\nFN 7-6 Quack Pam / HT Andrew H\nAN 7-7 Jae Ben (Chain)\nFN 8-7 Ryan Quack\nFN 9-7 Pam Quake / B Quack / HT Abe\nAN 9-8 Ben (Chain) Victor\nAN 9-9 Mitchell Abe / B Mindy / CT Mindy\nFN 10-9 Pam Grant / HT Victor Mindy Anthony G / CT Mindy Nick\nAN 10-10 Mitchell Abe\nFN 11-10 Cory Jacob (Zuko) / CT Mindy\nFN 12-10 Grant Pam / B Grant Duke Webster / HT Stephen\nFN 13-10 Cory Quake / B Cory\nFN 14-10 JT Jacob (Zuko) /B Mindy / HT Abe Duke / CT Jacob (Zuko)\nFN 15-10 Stephen Cory / CT Duke" }, 
             g2: { name: "Earth Kingdom vs Water Tribe", t1: "Earth Kingdom", t2: "Water Tribe", raw: "Start,0,0,Commenced\nEK 1-0 Uniss (Sonny) Derek / HT Google Matt \n WT 1-1 Jimmy Tony / B Tony / HT Tony Tony Tony Ann \n EK 2-1 Antonio Uniss (Sonny) / B Antonio Matt / HT Andy (Ender) Matt Matt Shane Alvin \n WT 2-2 Jimmy Dylan / B Dylan / HT Heidy Winston / CT Tony Alanis \n WT 2-3 Dylan Tony / B Jordan (Sugarloaf) / HT Jordan (Sugarloaf) / CT Google \n EK 3-3 Andy (Ender) Antonio / HT Jordan (Sugarloaf) \n EK 4-3 Google Antonio / B Jordan (Sugarloaf) Simeon (Quartz) Matt/ HT Winston Simeon (Quartz) Natalie Owen M \n EK 5-3 Derek Jordan (Sugarloaf) / B Shane / HT Eok Shane Shane Shane Shane/ CT Alvin \n EK 6-3 Alanis Google / B Andy (Ender) / HT Andy (Ender) Ann Dylan Andrew P Tony \nWT 6-4 Shane Simeon (Quartz) / B Anderson / HT Simeon (Quartz) Jordan (Sugarloaf)/ CT Owen M\n WT 6-5 Alvin Shane / HT Daniel \n EK 7-5 Ann Winston / HT Daniel/ CT Owen M \n WT 7-6 Dylan Owen M / B Delaney / HT Andy (Ender) \n EK 8-6 Alanis Andy (Ender) / HT Derek Google \n WT 8-7 Owen M Matt / HT Ann \n WT 8-8 Anderson Shane / B Shane / HT Google \n WT 8-9 Shane Dylan / HT Derek\n WT 8-10 Delaney Dylan / B Andrew P Andy (Ender) Eok /HT Andy (Ender)/ CT Andy (Ender) \n EK 9-10 Uniss (Sonny) Daniel / B Simeon (Quartz) / HT Tony Daniel / CT Tony \n WT 9-11 Heidy Dylan / HT Dylan / B Winston / HT Ann Jordan (Sugarloaf) Jordan (Sugarloaf) \n EK 10-11 Uniss (Sonny) Andy (Ender) \n WT 10-12 Shane Anderson / B Andrew P Delaney Natalie Google / HT Owen M Andrew P Shane Google / CT Owen M \n EK 11-12 Uniss (Sonny) Eok\n WT 11-13 Alvin Tony \n EK 12-13 Ann Daniel / HT Google Anderson \n EK 13-13 Uniss (Sonny) Andy (Ender) / B Uniss (Sonny) / HT Google \n EK 14-13 Uniss (Sonny) Andy (Ender) / HT Dylan \n EK 15-13 Winston Google / B Antonio / HT Owen M" }
         },
         w2: { 
@@ -300,7 +312,7 @@ button, input, textarea, select { font: inherit; }
     var participation = {
         w1: {
             g1: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Nick", "Quack", "Quake", "Ryan", "Stephen", "Emily", "Keili", "Mindy", "Pam", "Webster", "Abe", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jae", "Leon", "Mitchell", "Victor", "Amber", "Bao", "Emily (Sub)" , "Kim"], // Fire Nation vs Air Nomads
-            g2: ["Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Winston", "Alanis", "Ann", "Uniss (Sonny)", "Alvin", "Anderson", "Andrew P", "Dylan", "Jimmy", "Matt", "Owen M", "Shane", "Simeon (Quartz)", "Tony", "Delaney", "Heidy", "Natalie"]  // Earth Kingdom vs Water Tribe
+            g2: ["Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Nathaniel", "Winston", "Alanis", "Ann", "Uniss (Sonny)", "Alvin", "Anderson", "Andrew P", "Dylan", "Jimmy", "Matt", "Owen M", "Shane", "Simeon (Quartz)", "Tony", "Delaney", "Heidy", "Natalie"]  // Earth Kingdom vs Water Tribe
         },
         w2: {
             g1: [], // Fire Nation vs Earth Kingdom
@@ -337,10 +349,10 @@ button, input, textarea, select { font: inherit; }
     // but you do NOT know which specific point it happened on.
     // These count toward game, weekly, and season totals, but are NOT
     // attached to any point or shown in a point hover tooltip.
-    // Example: Block: ["Player A"], HTurn: ["Player B"], CTurn: ["Player C"]
+    // Example: Block: ["Player A"], HTurn: ["Player B"], CTurn: ["Player C"]. Fouls are recorded on point logs with / F Player.
     // ================================================================
     var unassignedEvents = {
-        w1: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:[], HTurn:[], CTurn:[]} },
+        w1: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:["Antonio"], HTurn:[], CTurn:[]} },
         w2: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:[], HTurn:[], CTurn:[]} },
         w3: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:[], HTurn:[], CTurn:[]} },
         w4: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:[], HTurn:[], CTurn:[]} },
@@ -409,13 +421,16 @@ button, input, textarea, select { font: inherit; }
         var slider = document.getElementById(gKey + "-zoom");
         var value = document.getElementById(gKey + "-zoom-value");
         if (!slider || !svg) return;
+        var inner = svg.parentElement;
         slider.oninput = function() {
             var scale = Number(slider.value) / 100;
             var width = Math.round(baseW * scale);
             svg.setAttribute("width", width);
             svg.style.width = width + "px";
+            if (inner) { inner.style.width = width + "px"; inner.style.minWidth = width + "px"; }
             if (value) value.textContent = slider.value + "%";
         };
+        slider.dispatchEvent(new Event("input"));
     }
 
     function resetChartZoom(gKey) {
@@ -462,7 +477,7 @@ button, input, textarea, select { font: inherit; }
         return null;
     }
     function parseCompactPoint(play) {
-        var events = { Goal: [], Assist: [], Block: [], HTurn: [], CTurn: [] };
+        var events = { Goal: [], Assist: [], Block: [], HTurn: [], CTurn: [], Foul: [] };
         var m = String(play || "").trim().match(/^(.*?)\s*\/\s*(.*)$/);
         var scoring = m ? m[1].trim() : String(play || "").trim();
         var defense = m ? m[2].trim() : "";
@@ -481,9 +496,9 @@ button, input, textarea, select { font: inherit; }
         for (var si = 0; si < segments.length; si++) {
             var seg = segments[si].trim();
             if (!seg) continue;
-            var em = seg.match(/^(B|HT|CT)\s+(.+)$/i);
+            var em = seg.match(/^(B|HT|CT|F)\s+(.+)$/i);
             if (!em) continue;
-            var type = em[1].toUpperCase() === "B" ? "Block" : (em[1].toUpperCase() === "HT" ? "HTurn" : "CTurn");
+            var type = em[1].toUpperCase() === "B" ? "Block" : (em[1].toUpperCase() === "HT" ? "HTurn" : (em[1].toUpperCase() === "CT" ? "CTurn" : "Foul"));
             var d = em[2].trim();
             // Keep parsing all consecutive roster names, including repeated names.
             while (d) {
@@ -503,20 +518,20 @@ button, input, textarea, select { font: inherit; }
         return null;
     }
     function parsePointEvents(play) {
-        var events = { Goal: [], Assist: [], Block: [], HTurn: [], CTurn: [] };
+        var events = { Goal: [], Assist: [], Block: [], HTurn: [], CTurn: [], Foul: [] };
         if (!play) return events;
         // Compact league-data format supports both:
         //   Goal Assist / defensive events
         // and a simple Goal Assist line when there are no defensive events.
         // The latter is needed for lines such as "FN 1-0 Mindy Cory".
-        if (!/(Goal by|Assist by|Block by|HTurn by|CTurn by|Handler turnover by|Cutter turnover by)/i.test(play)) return parseCompactPoint(play);
+        if (!/(Goal by|Assist by|Block by|HTurn by|CTurn by|Foul by|Handler turnover by|Cutter turnover by)/i.test(play)) return parseCompactPoint(play);
 
-        var re = /(Goal by|Assist by|Block by|HTurn by|CTurn by|Handler turnover by|Cutter turnover by)\s*/gi;
+        var re = /(Goal by|Assist by|Block by|HTurn by|CTurn by|Foul by|Handler turnover by|Cutter turnover by)\s*/gi;
         var matches = [];
         var m;
         while ((m = re.exec(play)) !== null) {
             var rawType = m[1].replace(/\s+by$/i, "");
-            var typeMap = { "Goal": "Goal", "Assist": "Assist", "Block": "Block", "HTurn": "HTurn", "CTurn": "CTurn", "Handler turnover": "HTurn", "Cutter turnover": "CTurn" };
+            var typeMap = { "Goal": "Goal", "Assist": "Assist", "Block": "Block", "HTurn": "HTurn", "CTurn": "CTurn", "Handler turnover": "HTurn", "Cutter turnover": "CTurn", "Foul": "Foul" };
             matches.push({ type: typeMap[rawType] || rawType, start: m.index, end: re.lastIndex });
         }
         for (var i = 0; i < matches.length; i++) {
@@ -590,7 +605,7 @@ button, input, textarea, select { font: inherit; }
         var addStat = function(pName, stat) {
             var meta = lookupPlayer(pName);
             if (!meta) return;
-            if (!res[meta.clean]) res[meta.clean] = { name: meta.clean, gender: meta.gender, team: meta.team, g:0, a:0, b:0, ht:0, ct:0 };
+            if (!res[meta.clean]) res[meta.clean] = { name: meta.clean, gender: meta.gender, team: meta.team, g:0, a:0, b:0, ht:0, ct:0, f:0 };
             res[meta.clean][stat]++;
         };
         for (var i = 0; i < lines.length; i++) {
@@ -603,6 +618,7 @@ button, input, textarea, select { font: inherit; }
                 for (var b = 0; b < events.Block.length; b++) addStat(events.Block[b], "b");
                 for (var h = 0; h < events.HTurn.length; h++) addStat(events.HTurn[h], "ht");
                 for (var c = 0; c < events.CTurn.length; c++) addStat(events.CTurn[c], "ct");
+                for (var f = 0; f < events.Foul.length; f++) addStat(events.Foul[f], "f");
             }
         }
         // Add Blocks/Turnovers whose exact point is unknown. These are intentionally
@@ -639,6 +655,49 @@ button, input, textarea, select { font: inherit; }
         }
         document.getElementById(tid).innerHTML = html;
     }
+    function duoKey(a, b) {
+        var names = [String(a || "").trim(), String(b || "").trim()].sort(function(x, y){ return x.localeCompare(y); });
+        return names[0] + "\u0000" + names[1];
+    }
+    function renderDuoRows(duoStats, minConnections) {
+        var arr = Object.keys(duoStats).map(function(k){ return duoStats[k]; })
+            .filter(function(d){ return d.connections >= minConnections; })
+            .sort(function(a,b){ return b.connections - a.connections || a.name.localeCompare(b.name); });
+        var cutoff = arr.length >= 5 ? arr[4].connections : null;
+        var shown = cutoff === null ? arr : arr.filter(function(d){ return d.connections >= cutoff; });
+        var html = "<div class='gender-grid'><div class='gender-panel' style='grid-column:1 / -1;'>";
+        if (!shown.length) {
+            html += "<div class='leader-row' style='background:#ffffff; color:#6b7280;'><span>No duo has connected " + minConnections + "+ times.</span><strong>0</strong></div>";
+        } else {
+            for (var i = 0; i < shown.length; i++) {
+                var d = shown[i], rank = 1;
+                for (var r = 0; r < arr.length; r++) { if (arr[r].connections > d.connections) rank++; else break; }
+                var p1 = d.players && d.players[0] ? d.players[0] : d.name.split(" + ")[0];
+                var p2 = d.players && d.players[1] ? d.players[1] : d.name.split(" + ")[1];
+                var m1 = lookupPlayer(p1), m2 = lookupPlayer(p2);
+                var sameTeam = m1 && m2 && m1.team === m2.team;
+                var c1 = m1 ? (teamColors[m1.team] || "#4b5563") : "#4b5563";
+                var c2 = m2 ? (teamColors[m2.team] || "#4b5563") : "#4b5563";
+                var duoBg = sameTeam ? (textBgColors[m1.team] || "#ffffff") : "#ffffff";
+                var duoText = sameTeam ? c1 : "#4b5563";
+                html += "<div class='leader-row' style='background:" + duoBg + "; color:" + duoText + ";'><span>" + rank + ". <span style='color:" + c1 + "; font-weight:700;'>" + escapeHtml(p1) + "</span> <span style='color:" + duoText + ";'>+</span> <span style='color:" + c2 + "; font-weight:700;'>" + escapeHtml(p2) + "</span></span><strong>" + d.connections + "</strong></div>";
+            }
+            for (var j = shown.length; j < 5; j++) html += "<div class='leader-row' style='background:#ffffff; color:#4b5563;'><span>-</span><strong>0</strong></div>";
+        }
+        html += "</div></div>";
+        return html;
+    }
+    function renderWeeklyDuos(duoStats) {
+        var el = document.getElementById("weeklyDuos");
+        if (!el) return;
+        el.innerHTML = renderDuoRows(duoStats, 2);
+    }
+    function renderSeasonDuos(duoStats) {
+        var el = document.getElementById("seasonDuos");
+        if (!el) return;
+        el.innerHTML = renderDuoRows(duoStats, 2);
+    }
+
     function getMatchRosterStats(match, gameStats, wNum, gKey) {
         var out = [];
         [match.t1, match.t2].forEach(function(team) {
@@ -646,9 +705,14 @@ button, input, textarea, select { font: inherit; }
             ["Men","Women"].forEach(function(div) {
                 rosters[team][div].forEach(function(name) {
                     var meta = lookupPlayer(name); if (!meta) return;
-                    if (getGameParticipants(wNum,gKey).indexOf(name) === -1) return;
-                    var p = gameStats[name] || {g:0,a:0,b:0,ht:0,ct:0};
-                    out.push({name:meta.clean, gender:meta.gender, team:meta.team, g:p.g||0, a:p.a||0, b:p.b||0, ht:p.ht||0, ct:p.ct||0});
+                    var p = gameStats[name] || {g:0,a:0,b:0,ht:0,ct:0,f:0};
+                    var listed = getGameParticipants(wNum,gKey).indexOf(name) !== -1;
+                    var hasRecordedStat = (p.g||0) > 0 || (p.a||0) > 0 || (p.b||0) > 0 || (p.ht||0) > 0 || (p.ct||0) > 0 || (p.f||0) > 0;
+                    // Participation is still the normal way to include zero-stat players,
+                    // but anyone with a recorded stat is shown automatically. This prevents
+                    // unassigned Blocks/Turnovers/Fouls from disappearing from the weekly table.
+                    if (!listed && !hasRecordedStat) return;
+                    out.push({name:meta.clean, gender:meta.gender, team:meta.team, g:p.g||0, a:p.a||0, b:p.b||0, ht:p.ht||0, ct:p.ct||0, f:p.f||0});
                 });
             });
         });
@@ -660,7 +724,7 @@ button, input, textarea, select { font: inherit; }
         buildDashboard();
     }
     function sortPlayers(arr, gKey) {
-        var st=tableSortState[gKey], keys=["g","a","b","ht","ct"];
+        var st=tableSortState[gKey], keys=["g","a","b","ht","ct","f"];
         return arr.slice().sort(function(a,b){
             var av,bv;
             if(st.index===0){av=a.name;bv=b.name;return st.dir==="asc"?av.localeCompare(bv):bv.localeCompare(av);}
@@ -691,7 +755,7 @@ button, input, textarea, select { font: inherit; }
             var av, bv;
             if (st.index === 0) { av = a.name; bv = b.name; return st.dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av); }
             if (st.index === 1) { av = a.gender; bv = b.gender; return st.dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av); }
-            var keys = ["gp","g","a","b","ht","ct"];
+            var keys = ["gp","g","a","b","ht","ct","f"];
             av = a[keys[st.index - 2]]; bv = b[keys[st.index - 2]];
             return av !== bv ? (st.dir === "asc" ? av - bv : bv - av) : a.name.localeCompare(b.name);
         });
@@ -711,15 +775,37 @@ button, input, textarea, select { font: inherit; }
     function buildDashboard() {
         document.getElementById("weekDisplayTitle").innerText = "Week " + activeWeek + " Breakdown";
         document.getElementById("weeklyLeadersTitle").innerText = "🏆 Week " + activeWeek + " Leaders (Top 5 Rankings)";
-        var weekStats = {}; var globalSeasonStats = {}; var matchKeys = ["g1", "g2"];
+        var weekStats = {}; var globalSeasonStats = {}; var weeklyDuoStats = {}; var seasonDuoStats = {}; var matchKeys = ["g1", "g2"];
         Object.keys(leagueData).forEach(function(wKey) {
             var wNum = parseInt(wKey.replace("w", ""));
             matchKeys.forEach(function(gKey) {
-                var match = leagueData[wKey][gKey]; var gameStats = parseStats(match.raw, getUnassignedEvents(wNum, gKey));
+                var match = leagueData[wKey] && leagueData[wKey][gKey]; if (!match) return; var gameStats = parseStats(match.raw || "", getUnassignedEvents(wNum, gKey));
                 Object.keys(gameStats).forEach(function(pKey) {
                     var p = gameStats[pKey];
-                    if (wNum === activeWeek) { if (!weekStats[pKey]) weekStats[pKey] = { name: p.name, gender: p.gender, team: p.team, g:0, a:0, b:0 }; weekStats[pKey].g += p.g; weekStats[pKey].a += p.a; weekStats[pKey].b += p.b; }
-                    if (!globalSeasonStats[pKey]) globalSeasonStats[pKey] = { name: p.name, gender: p.gender, team: p.team, g:0, a:0, b:0 }; globalSeasonStats[pKey].g += p.g; globalSeasonStats[pKey].a += p.a; globalSeasonStats[pKey].b += p.b;
+                    if (wNum === activeWeek) { if (!weekStats[pKey]) weekStats[pKey] = { name: p.name, gender: p.gender, team: p.team, g:0, a:0, b:0, f:0, ht:0, ct:0 }; weekStats[pKey].g += p.g; weekStats[pKey].a += p.a; weekStats[pKey].b += p.b; weekStats[pKey].f += p.f; weekStats[pKey].ht += p.ht; weekStats[pKey].ct += p.ct; }
+                    if (!globalSeasonStats[pKey]) globalSeasonStats[pKey] = { name: p.name, gender: p.gender, team: p.team, g:0, a:0, b:0, f:0, ht:0, ct:0 }; globalSeasonStats[pKey].g += p.g; globalSeasonStats[pKey].a += p.a; globalSeasonStats[pKey].b += p.b; globalSeasonStats[pKey].f += p.f; globalSeasonStats[pKey].ht += p.ht; globalSeasonStats[pKey].ct += p.ct;
+                });
+                // A duo connection is one Goal + Assist pair on the same point.
+                // The pair is unordered, so Ryan/Pam counts the same whether Ryan
+                // scored and Pam assisted or Pam scored and Ryan assisted.
+                var duoLines = (match.raw || "").split("\n");
+                duoLines.forEach(function(line){
+                    var parsedDuo = parsePointLine(line);
+                    if (!parsedDuo || !parsedDuo.play) return;
+                    var evDuo = parsePointEvents(parsedDuo.play);
+                    if (evDuo.Goal.length && evDuo.Assist.length) {
+                        var goalName = evDuo.Goal[0], assistName = evDuo.Assist[0];
+                        // Duo connections only count when both players are on the same team.
+                        var goalMeta = lookupPlayer(goalName), assistMeta = lookupPlayer(assistName);
+                        if (!goalMeta || !assistMeta || goalMeta.team !== assistMeta.team) return;
+                        var dk = duoKey(goalName, assistName);
+                        if (!seasonDuoStats[dk]) seasonDuoStats[dk] = { name: [goalName, assistName].sort(function(x,y){return x.localeCompare(y);}).join(" + "), players: [goalName, assistName].sort(function(x,y){return x.localeCompare(y);}), connections: 0 };
+                        seasonDuoStats[dk].connections++;
+                        if (wNum === activeWeek) {
+                            if (!weeklyDuoStats[dk]) weeklyDuoStats[dk] = { name: seasonDuoStats[dk].name, players: seasonDuoStats[dk].players.slice(), connections: 0 };
+                            weeklyDuoStats[dk].connections++;
+                        }
+                    }
                 });
                 if (wNum === activeWeek) {
                     document.getElementById(gKey + "-title").innerText = match.name; var c1 = teamColors[match.t1] || "#333", c2 = teamColors[match.t2] || "#666";
@@ -732,27 +818,27 @@ button, input, textarea, select { font: inherit; }
                     var tHtml = "";
                     var rosterStats = getMatchRosterStats(match, gameStats, activeWeek, gKey);
                     [match.t1, match.t2].forEach(function(team) {
-                        tHtml += "<tr><td colspan='7' class='table-group-header' style='background:" + (teamColors[team]||'#555') + " !important;'>" + team + "</td></tr>";
+                        tHtml += "<tr><td colspan='8' class='table-group-header' style='background:" + (teamColors[team]||'#555') + " !important;'>" + team + "</td></tr>";
                         ["MMP","FMP"].forEach(function(gen) {
                             var arr = rosterStats.filter(function(p){return p.team===team && p.gender===gen;});
                             arr = sortPlayers(arr, gKey);
                             tHtml += "<tr><td colspan='8' class='table-subgroup-header'>" + gen + "</td></tr>";
-                            arr.forEach(function(p){ tHtml += "<tr><td style='padding-left:20px;'><strong>"+escapeHtml(p.name)+"</strong></td><td>"+p.gender+"</td><td>"+p.g+"</td><td>"+p.a+"</td><td>"+p.b+"</td><td>"+p.ht+"</td><td>"+p.ct+"</td></tr>"; });
+                            arr.forEach(function(p){ tHtml += "<tr><td style='padding-left:20px;'><strong>"+escapeHtml(p.name)+"</strong></td><td>"+p.gender+"</td><td>"+p.g+"</td><td>"+p.a+"</td><td>"+p.b+"</td><td>"+p.ht+"</td><td>"+p.ct+"</td><td>"+p.f+"</td></tr>"; });
 
                             // Put this team's total immediately after its FMP players,
                             // before the next team's stats begin.
                             if (gen === "FMP") {
                                 var totals = Object.keys(gameStats).reduce(function(acc, pKey){
                                     var p = gameStats[pKey];
-                                    if (p.team === team) { acc.a += p.a; acc.b += p.b; acc.ht += p.ht; acc.ct += p.ct; }
+                                    if (p.team === team) { acc.a += p.a; acc.b += p.b; acc.ht += p.ht; acc.ct += p.ct; acc.f += p.f; }
                                     return acc;
-                                }, {g:0,a:0,b:0,ht:0,ct:0});
+                                }, {g:0,a:0,b:0,ht:0,ct:0,f:0});
                                 // Team Score comes from the game score, not from recognized
                                 // player Goal events. This keeps team totals correct even if
                                 // a log contains a scorer who is not currently on the roster.
                                 var gameScore = getGameScore(match);
                                 if (gameScore) totals.g = (team === match.t1 ? gameScore.a : gameScore.b);
-                                tHtml += "<tr class='team-total-row'><td colspan='2' class='team-total-label'>" + escapeHtml(team) + " Total</td><td>" + totals.g + "</td><td>" + totals.a + "</td><td>" + totals.b + "</td><td>" + totals.ht + "</td><td>" + totals.ct + "</td></tr>";
+                                tHtml += "<tr class='team-total-row'><td colspan='2' class='team-total-label'>" + escapeHtml(team) + " Total</td><td>" + totals.g + "</td><td>" + totals.a + "</td><td>" + totals.b + "</td><td>" + totals.ht + "</td><td>" + totals.ct + "</td><td>" + totals.f + "</td></tr>";
                             }
                         });
                     });
@@ -764,9 +850,9 @@ button, input, textarea, select { font: inherit; }
                     [match.t1, match.t2].forEach(function(team) {
                         var totals = Object.keys(gameStats).reduce(function(acc, pKey){
                             var p = gameStats[pKey];
-                            if (p.team === team) { acc.a += p.a; acc.b += p.b; acc.ht += p.ht; acc.ct += p.ct; }
+                            if (p.team === team) { acc.a += p.a; acc.b += p.b; acc.ht += p.ht; acc.ct += p.ct; acc.f += p.f; }
                             return acc;
-                        }, {g:0,a:0,b:0,ht:0,ct:0});
+                        }, {g:0,a:0,b:0,ht:0,ct:0,f:0});
                         var gameScore = getGameScore(match);
                         if (gameScore) totals.g = (team === match.t1 ? gameScore.a : gameScore.b);
                         totalsHtml += "<div style='margin:8px 0 10px; font-weight:800; color:" + (teamColors[team]||'#374151') + ";'>" + escapeHtml(team) + "</div><div class='team-total-grid'>" +
@@ -800,7 +886,7 @@ button, input, textarea, select { font: inherit; }
                     var runningCounts = {};
                     pts.forEach(function(pt) {
                         var ev = parsePointEvents(pt.textLog);
-                        ["Goal", "Assist", "Block", "HTurn", "CTurn"].forEach(function(type) {
+                        ["Goal", "Assist", "Block", "HTurn", "CTurn", "Foul"].forEach(function(type) {
                             ev[type].forEach(function(name) {
                                 if (!runningCounts[type]) runningCounts[type] = {};
                                 runningCounts[type][name] = (runningCounts[type][name] || 0) + 1;
@@ -811,7 +897,7 @@ button, input, textarea, select { font: inherit; }
 
                     chartDiv.innerHTML = "";
                     if (pts.length > 0) {
-                        var pL = 45, pR = 45, pT = 25, pB = 40, baseW = Math.max(900, pts.length * 55), w = baseW, h = 210, cH = h - pT - pB; var step = (w - pL - pR) / (pts.length - 1 || 1); var yMax = maxScore === 0 ? 3 : maxScore + 1; var ns = "http://www.w3.org/2000/svg"; var svg = document.createElementNS(ns, "svg");
+                        var pL = 45, pR = 45, pT = 25, pB = 40, baseW = Math.max(900, pts.length * 55), w = baseW, h = 300, cH = h - pT - pB; var step = (w - pL - pR) / (pts.length - 1 || 1); var yMax = maxScore === 0 ? 3 : maxScore + 1; var ns = "http://www.w3.org/2000/svg"; var svg = document.createElementNS(ns, "svg");
                         svg.setAttribute("width", w); svg.setAttribute("height", h); svg.setAttribute("viewBox", "0 0 " + w + " " + h); svg.style.width = w + "px"; svg.style.maxWidth = "none";
                         for (var i = 0; i <= yMax; i++) { 
                             var y = h - pB - ((i / yMax) * cH); var line = document.createElementNS(ns, "line"); line.setAttribute("x1", pL); line.setAttribute("y1", y); line.setAttribute("x2", w - pR); line.setAttribute("y2", y); line.setAttribute("stroke", "#f3f4f6"); svg.appendChild(line);
@@ -876,6 +962,7 @@ button, input, textarea, select { font: inherit; }
                                         match.t1 + " • Score: " + savedScoreA);
                                 };
                                 cA.onmouseout = function() { hideTip(gKey); };
+                                cA.onclick = function() { hideTip(gKey); cA.blur(); };
                                 cA.onfocus = function(e) {
                                     showTipFromSvgPoint(e, gKey, savedEventHtmlA,
                                         match.t1 + " • Score: " + savedScoreA, savedXA, savedY1);
@@ -895,6 +982,7 @@ button, input, textarea, select { font: inherit; }
                                         match.t2 + " • Score: " + savedScoreB);
                                 };
                                 cB.onmouseout = function() { hideTip(gKey); };
+                                cB.onclick = function() { hideTip(gKey); cB.blur(); };
                                 cB.onfocus = function(e) {
                                     showTipFromSvgPoint(e, gKey, savedEventHtmlB,
                                         match.t2 + " • Score: " + savedScoreB, savedXB, savedY2);
@@ -923,13 +1011,15 @@ button, input, textarea, select { font: inherit; }
         });
         var metrics = ["g", "a", "b"]; var labels = { g: "Goals", a: "Assists", b: "Blocks" };
         renderLeaderBlock("menLeaders", weekStats, "MMP", metrics, labels, 2); renderLeaderBlock("womenLeaders", weekStats, "FMP", metrics, labels);
-        renderLeaderBlock("globalMenLeaders", globalSeasonStats, "MMP", metrics, labels); renderLeaderBlock("globalWomenLeaders", globalSeasonStats, "FMP", metrics, labels);
+        document.getElementById("weeklyDuosTitle").innerText = "🤝 Week " + activeWeek + " End-Zone Connections (Goal/Assist Combos per duo)";
+        renderWeeklyDuos(weeklyDuoStats);
+        renderLeaderBlock("globalMenLeaders", globalSeasonStats, "MMP", metrics, labels); renderLeaderBlock("globalWomenLeaders", globalSeasonStats, "FMP", metrics, labels);        renderSeasonDuos(seasonDuoStats);
         var seasonTeamTotals = {};
-        Object.keys(rosters).forEach(function(team){ seasonTeamTotals[team] = {g:0,a:0,b:0,ht:0,ct:0}; });
+        Object.keys(rosters).forEach(function(team){ seasonTeamTotals[team] = {g:0,a:0,b:0,ht:0,ct:0,f:0}; });
         Object.keys(leagueData).forEach(function(wKey){ var wNum = parseInt(wKey.replace("w",""), 10); matchKeys.forEach(function(gKey){
-            var game = leagueData[wKey][gKey];
-            var gs = parseStats(game.raw, getUnassignedEvents(wNum, gKey));
-            Object.keys(gs).forEach(function(pKey){ var p = gs[pKey]; if (!seasonTeamTotals[p.team]) seasonTeamTotals[p.team] = {g:0,a:0,b:0,ht:0,ct:0}; seasonTeamTotals[p.team].a += p.a; seasonTeamTotals[p.team].b += p.b; seasonTeamTotals[p.team].ht += p.ht; seasonTeamTotals[p.team].ct += p.ct; });
+            var game = leagueData[wKey] && leagueData[wKey][gKey]; if (!game) return;
+            var gs = parseStats(game.raw || "", getUnassignedEvents(wNum, gKey));
+            Object.keys(gs).forEach(function(pKey){ var p = gs[pKey]; if (!seasonTeamTotals[p.team]) seasonTeamTotals[p.team] = {g:0,a:0,b:0,ht:0,ct:0,f:0}; seasonTeamTotals[p.team].a += p.a; seasonTeamTotals[p.team].b += p.b; seasonTeamTotals[p.team].ht += p.ht; seasonTeamTotals[p.team].ct += p.ct; seasonTeamTotals[p.team].f += p.f; });
             // Season team Score is based on the final scoreboard for each game,
             // rather than only on Goal events that successfully map to a roster player.
             var gameScore = getGameScore(game);
@@ -961,7 +1051,7 @@ button, input, textarea, select { font: inherit; }
             var wk = leagueData["w" + wn2];
             if (!wk) continue;
             matchKeys.forEach(function(gKey){
-                var game = wk[gKey]; var score = getGameScore(game);
+                var game = wk[gKey]; if (!game) return; var score = getGameScore(game);
                 if (!score || standingTeams.indexOf(game.t1) === -1 || standingTeams.indexOf(game.t2) === -1) return;
                 standings[game.t1].weeks[wn2] = score.a + "-" + score.b;
                 standings[game.t2].weeks[wn2] = score.b + "-" + score.a;
@@ -980,7 +1070,7 @@ button, input, textarea, select { font: inherit; }
         });
         document.getElementById("seasonStandings").innerHTML = standingsHtml;
 
-        var seasonTotalsHtml = ""; Object.keys(rosters).forEach(function(team){ var t = seasonTeamTotals[team] || {g:0,a:0,b:0,ht:0,ct:0}; seasonTotalsHtml += "<div class='season-team-total-card'><div class='season-team-total-name' style='color:" + (teamColors[team]||'#374151') + ";'>" + escapeHtml(team) + "</div><div class='season-team-total-grid'><div class='season-team-total-stat'>Score<strong>" + t.g + "</strong></div><div class='season-team-total-stat'>Assist<strong>" + t.a + "</strong></div><div class='season-team-total-stat'>Block<strong>" + t.b + "</strong></div><div class='season-team-total-stat'>Handler Turnover<strong>" + t.ht + "</strong></div><div class='season-team-total-stat'>Cutter Turnover<strong>" + t.ct + "</strong></div></div></div>"; });
+        var seasonTotalsHtml = ""; Object.keys(rosters).forEach(function(team){ var t = seasonTeamTotals[team] || {g:0,a:0,b:0,ht:0,ct:0,f:0}; seasonTotalsHtml += "<div class='season-team-total-card'><div class='season-team-total-name' style='color:" + (teamColors[team]||'#374151') + ";'>" + escapeHtml(team) + "</div><div class='season-team-total-grid'><div class='season-team-total-stat'>Score<strong>" + t.g + "</strong></div><div class='season-team-total-stat'>Assist<strong>" + t.a + "</strong></div><div class='season-team-total-stat'>Block<strong>" + t.b + "</strong></div><div class='season-team-total-stat'>Handler Turnover<strong>" + t.ht + "</strong></div><div class='season-team-total-stat'>Cutter Turnover<strong>" + t.ct + "</strong></div><div class='season-team-total-stat'>Fouls<strong>" + t.f + "</strong></div></div></div>"; });
         document.getElementById("seasonTeamTotals").innerHTML = seasonTotalsHtml;
 
         // Every rostered player with all season totals, separated into MMP and FMP like the weekly stat tables.
@@ -988,18 +1078,18 @@ button, input, textarea, select { font: inherit; }
         Object.keys(rosters).forEach(function(team, teamIndex){
             var players = [];
             ["Men","Women"].forEach(function(div){
-                rosters[team][div].forEach(function(name){ players.push({ name:name, gender:div === "Men" ? "MMP" : "FMP", g:0,a:0,b:0,ht:0,ct:0,gp:0 }); });
+                rosters[team][div].forEach(function(name){ players.push({ name:name, gender:div === "Men" ? "MMP" : "FMP", g:0,a:0,b:0,ht:0,ct:0,f:0,gp:0 }); });
             });
-            Object.keys(leagueData).forEach(function(wKey){ matchKeys.forEach(function(gKey){ var participants=getGameParticipants(parseInt(wKey.replace("w","")),gKey); players.forEach(function(pl){if(participants.indexOf(pl.name)!==-1)pl.gp+=1;}); var gs = parseStats(leagueData[wKey][gKey].raw, getUnassignedEvents(parseInt(wKey.replace("w","")), gKey)); Object.keys(gs).forEach(function(pKey){ var p=gs[pKey]; if(p.team !== team) return; for(var pi=0;pi<players.length;pi++){ if(players[pi].name===p.name){ players[pi].g+=p.g; players[pi].a+=p.a; players[pi].b+=p.b; players[pi].ht+=p.ht; players[pi].ct+=p.ct; break; } } }); }); });
+            Object.keys(leagueData).forEach(function(wKey){ matchKeys.forEach(function(gKey){ var game = leagueData[wKey] && leagueData[wKey][gKey]; if (!game) return; var participants=getGameParticipants(parseInt(wKey.replace("w","")),gKey); players.forEach(function(pl){if(participants.indexOf(pl.name)!==-1)pl.gp+=1;}); var gs = parseStats(game.raw || "", getUnassignedEvents(parseInt(wKey.replace("w","")), gKey)); Object.keys(gs).forEach(function(pKey){ var p=gs[pKey]; if(p.team !== team) return; for(var pi=0;pi<players.length;pi++){ if(players[pi].name===p.name){ players[pi].g+=p.g; players[pi].a+=p.a; players[pi].b+=p.b; players[pi].ht+=p.ht; players[pi].ct+=p.ct; players[pi].f+=p.f; break; } } }); }); });
             rosterSeasonHtml += "<div class='season-roster-team'><div class='season-roster-team-title' style='color:" + (teamColors[team]||'#374151') + ";'>" + escapeHtml(team) + "</div>";
             var tableId = "season-roster-table-" + teamIndex;
             rosterSeasonHtml += "<div class='season-roster-table-wrap'><table id='" + tableId + "' class='season-roster-table'><thead><tr>" +
-                "<th onclick='sortSeasonRoster(" + teamIndex + ",0)'>Player</th><th onclick='sortSeasonRoster(" + teamIndex + ",1)'>Gender</th><th onclick='sortSeasonRoster(" + teamIndex + ",2)'>Games Played</th><th onclick='sortSeasonRoster(" + teamIndex + ",3)'>Score</th><th onclick='sortSeasonRoster(" + teamIndex + ",4)'>Assist</th><th onclick='sortSeasonRoster(" + teamIndex + ",5)'>Block</th><th onclick='sortSeasonRoster(" + teamIndex + ",6)'>Handler Turnover</th><th onclick='sortSeasonRoster(" + teamIndex + ",7)'>Cutter Turnover</th></tr></thead><tbody>";
+                "<th onclick='sortSeasonRoster(" + teamIndex + ",0)'>Player</th><th onclick='sortSeasonRoster(" + teamIndex + ",1)'>Gender</th><th onclick='sortSeasonRoster(" + teamIndex + ",2)'>Games Played</th><th onclick='sortSeasonRoster(" + teamIndex + ",3)'>Score</th><th onclick='sortSeasonRoster(" + teamIndex + ",4)'>Assist</th><th onclick='sortSeasonRoster(" + teamIndex + ",5)'>Block</th><th onclick='sortSeasonRoster(" + teamIndex + ",6)'>Handler Turnover</th><th onclick='sortSeasonRoster(" + teamIndex + ",7)'>Cutter Turnover</th><th onclick='sortSeasonRoster(" + teamIndex + ",8)'>Fouls</th></tr></thead><tbody>";
             ["MMP","FMP"].forEach(function(gen){
                 var arr = players.filter(function(p){ return p.gender === gen; });
                 arr = sortSeasonRosterPlayers(arr, teamIndex);
-                rosterSeasonHtml += "<tr><td colspan='8' class='table-subgroup-header'>" + gen + "</td></tr>";
-                arr.forEach(function(p){ rosterSeasonHtml += "<tr><td style='padding-left:20px;'><strong>" + escapeHtml(p.name) + "</strong></td><td class='gender-label'>" + p.gender + "</td><td>" + p.gp + "</td><td>" + p.g + "</td><td>" + p.a + "</td><td>" + p.b + "</td><td>" + p.ht + "</td><td>" + p.ct + "</td></tr>"; });
+                rosterSeasonHtml += "<tr><td colspan='9' class='table-subgroup-header'>" + gen + "</td></tr>";
+                arr.forEach(function(p){ rosterSeasonHtml += "<tr><td style='padding-left:20px;'><strong>" + escapeHtml(p.name) + "</strong></td><td class='gender-label'>" + p.gender + "</td><td>" + p.gp + "</td><td>" + p.g + "</td><td>" + p.a + "</td><td>" + p.b + "</td><td>" + p.ht + "</td><td>" + p.ct + "</td><td>" + p.f + "</td></tr>"; });
             });
             rosterSeasonHtml += "</tbody></table></div></div>";
         });
@@ -1052,10 +1142,12 @@ button, input, textarea, select { font: inherit; }
         var blocks = teamPlayers(events.Block);
         var hturns = teamPlayers(events.HTurn);
         var cturns = teamPlayers(events.CTurn);
+        var fouls = teamPlayers(events.Foul);
 
         if (blocks.length) html += "<div><strong>Block" + (blocks.length > 1 ? "s" : "") + ":</strong> " + countedList("Block", blocks) + "</div>";
         if (hturns.length) html += "<div><strong>Handler turnover" + (hturns.length > 1 ? "s" : "") + ":</strong> " + countedList("HTurn", hturns) + "</div>";
         if (cturns.length) html += "<div><strong>Cutter turnover" + (cturns.length > 1 ? "s" : "") + ":</strong> " + countedList("CTurn", cturns) + "</div>";
+        if (fouls.length) html += "<div><strong>Foul" + (fouls.length > 1 ? "s" : "") + ":</strong> " + countedList("Foul", fouls) + "</div>";
 
         return html || "<div><strong>Event:</strong> No recorded event for " + escapeHtml(hoveredTeam) + "</div>";
     }
