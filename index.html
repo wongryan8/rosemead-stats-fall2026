@@ -1023,7 +1023,7 @@ button, input, textarea, select { font: inherit; }
         });
         var metrics = ["g", "a", "b"]; var labels = { g: "Goals", a: "Assists", b: "Blocks" };
         renderLeaderBlock("menLeaders", weekStats, "MMP", metrics, labels, 2); renderLeaderBlock("womenLeaders", weekStats, "FMP", metrics, labels);
-        document.getElementById("weeklyDuosTitle").innerText = "🤝 Week " + activeWeek + " End-Zone Connections (2+ per duo)";
+        document.getElementById("weeklyDuosTitle").innerText = "🤝 Week " + activeWeek + " End-Zone Connections (Goal/Assist Combos per duo)";
         renderWeeklyDuos(weeklyDuoStats);
         renderLeaderBlock("globalMenLeaders", globalSeasonStats, "MMP", metrics, labels); renderLeaderBlock("globalWomenLeaders", globalSeasonStats, "FMP", metrics, labels);        renderSeasonDuos(seasonDuoStats);
         var seasonTeamTotals = {};
