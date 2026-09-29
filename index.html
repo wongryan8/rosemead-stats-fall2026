@@ -179,8 +179,8 @@ button, input, textarea, select { font: inherit; }
     <div class="tabs">
         <button class="tab-btn" onclick="switchTab('season')">Season Totals</button>
         <button class="tab-btn" onclick="switchWeek(1)">Week 1</button>
-        <button class="tab-btn active" onclick="switchWeek(2)">Week 2</button>
-        <button class="tab-btn" onclick="switchWeek(3)">Week 3</button>
+        <button class="tab-btn" onclick="switchWeek(2)">Week 2</button>
+        <button class="tab-btn active" onclick="switchWeek(3)">Week 3</button>
         <button class="tab-btn" onclick="switchWeek(4)">Week 4</button>
         <button class="tab-btn" onclick="switchWeek(5)">Week 5</button>
         <button class="tab-btn" onclick="switchWeek(6)">Week 6</button>
@@ -267,19 +267,19 @@ button, input, textarea, select { font: inherit; }
     var rosters = {
         "Fire Nation": { 
             Men: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Nick", "Quack", "Quake", "Ryan", "Stephen", "Thom"], 
-            Women: ["Emily", "Keili", "Mindy", "Pam", "Webster"] 
+            Women: ["Emily", "Keili", "Mindy (Fire)", "Pam", "Webster"] 
         },
         "Earth Kingdom": { 
-            Men: ["Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Owen Z", "Winston"], 
-            Women: ["Alanis", "Ann", "Carmen", "Uniss (Sonny)"] 
+            Men: ["Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Owen Z", "Winston", "Jackson (Earth)"], 
+            Women: ["Alanis", "Ann", "Carmen", "Uniss (Sonny)", "Maddie (Earth)"] 
         },
         "Air Nomads": { 
             Men: ["Abe", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jacob", "Jae", "Leon", "Maarten", "Mitchell", "Victor"], 
-            Women: ["Amber", "Bao", "Cheryl", "Emily (Sub)", "Kim", "Zuma"] 
+            Women: ["Amber", "Bao", "Cheryl", "Emily (Air)", "Kim", "Zuma", "Mindy (Air)", "Briana", "Maddie (Air)"] 
         },
         "Water Tribe": { 
             Men: ["Alvin", "Anderson", "Andrew P", "Dylan", "Jimmy", "Matt", "Owen M", "Shane", "Simeon (Quartz)", "Tony"], 
-            Women: ["BLUE", "Delaney", "Heidy", "Natalie"] 
+            Women: ["Anna", "Delaney", "Heidy", "Natalie"] 
         }
     };
 
@@ -288,14 +288,16 @@ button, input, textarea, select { font: inherit; }
 
     var leagueData = {
         w1: { 
-            g1: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced\nFN 1-0 Mindy Cory\nAN 1-1 Bao Abe / HT Victor Nick / B Victor\nAN 1-2 Amber Anthony G / HT Mindy Jacob (Zuko) Jacob (Zuko)\nAN 1-3 Ben (Chain) Jae / B Kim / HT Amber Jae Nick Stephen / CT Nick\nFN 2-3 JT Cory / HT Andrew H\nAN 2-4 Mitchell Ben (Chain) / HT Jae Abe Webster / B Quake\nFN 3-4 Stephen Quack \nAN 3-5 Emily (Sub) Ben (Chain) \nFN 4-5 Cory Quack / B Cory / HT Webster Bao Victor Pam\nAN 4-6 Jae Kim / HT Abe Nick / CT Nick\nFN 5-6 Quack Cory / B Quake Duke / HT Jae Kim \nFN 6-6 Stephen Pam / CT Nick Stephen\nFN 7-6 Quack Pam / HT Andrew H\nAN 7-7 Jae Ben (Chain)\nFN 8-7 Ryan Quack\nFN 9-7 Pam Quake / B Quack / HT Abe\nAN 9-8 Ben (Chain) Victor\nAN 9-9 Mitchell Abe / B Mindy / CT Mindy\nFN 10-9 Webster Grant / HT Victor Mindy Anthony G / CT Mindy Nick\nAN 10-10 Mitchell Abe\nFN 11-10 Cory Jacob (Zuko) / CT Mindy\nFN 12-10 Pam Grant / B Grant Duke Webster / HT Stephen\nFN 13-10 Cory Quake / B Cory\nFN 14-10 JT Jacob (Zuko) /B Mindy / HT Abe Duke / CT Jacob (Zuko)\nFN 15-10 Stephen Cory / CT Duke" }, 
+            g1: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced\nFN 1-0 Mindy (Fire) Cory\nAN 1-1 Bao Abe / HT Victor Nick / B Victor\nAN 1-2 Amber Anthony G / HT Mindy (Fire) Jacob (Zuko) Jacob (Zuko)\nAN 1-3 Ben (Chain) Jae / B Kim / HT Amber Jae Nick Stephen / CT Nick\nFN 2-3 JT Cory / HT Andrew H\nAN 2-4 Mitchell Ben (Chain) / HT Jae Abe Webster / B Quake\nFN 3-4 Stephen Quack \nAN 3-5 Emily (Air) Ben (Chain) \nFN 4-5 Cory Quack / B Cory / HT Webster Bao Victor Pam\nAN 4-6 Jae Kim / HT Abe Nick / CT Nick\nFN 5-6 Quack Cory / B Quake Duke / HT Jae Kim \nFN 6-6 Stephen Pam / CT Nick Stephen\nFN 7-6 Quack Pam / HT Andrew H\nAN 7-7 Jae Ben (Chain)\nFN 8-7 Ryan Quack\nFN 9-7 Pam Quake / B Quack / HT Abe\nAN 9-8 Ben (Chain) Victor\nAN 9-9 Mitchell Abe / B Mindy (Fire) / CT Mindy (Fire)\nFN 10-9 Webster Grant / HT Victor Mindy (Fire) Anthony G / CT Mindy (Fire) Nick\nAN 10-10 Mitchell Abe\nFN 11-10 Cory Jacob (Zuko) / CT Mindy (Fire)\nFN 12-10 Pam Grant / B Grant Duke Webster / HT Stephen\nFN 13-10 Cory Quake / B Cory\nFN 14-10 JT Jacob (Zuko) /B Mindy (Fire) / HT Abe Duke / CT Jacob (Zuko)\nFN 15-10 Stephen Cory / CT Duke" }, 
             g2: { name: "Earth Kingdom vs Water Tribe", t1: "Earth Kingdom", t2: "Water Tribe", raw: "Start,0,0,Commenced\nEK 1-0 Uniss (Sonny) Derek / HT Google Matt \n WT 1-1 Jimmy Tony / B Tony / HT Tony Tony Tony Ann \n EK 2-1 Antonio Uniss (Sonny) / B Antonio Matt / HT Andy (Ender) Matt Matt Shane Alvin \n WT 2-2 Jimmy Dylan / B Dylan / HT Heidy Winston / CT Tony Alanis \n WT 2-3 Dylan Tony / B Jordan (Sugarloaf) / HT Jordan (Sugarloaf) / CT Google \n EK 3-3 Andy (Ender) Antonio / HT Jordan (Sugarloaf) \n EK 4-3 Google Antonio / B Jordan (Sugarloaf) Simeon (Quartz) Matt/ HT Winston Simeon (Quartz) Natalie Owen M \n EK 5-3 Derek Jordan (Sugarloaf) / B Shane / HT Eok Shane Shane Shane Shane/ CT Alvin \n EK 6-3 Alanis Google / B Andy (Ender) / HT Andy (Ender) Ann Dylan Andrew P Tony \nWT 6-4 Shane Simeon (Quartz) / B Anderson / HT Simeon (Quartz) Jordan (Sugarloaf)/ CT Owen M\n WT 6-5 Alvin Shane / HT Daniel \n EK 7-5 Ann Winston / HT Daniel/ CT Owen M \n WT 7-6 Dylan Owen M / B Delaney / HT Andy (Ender) \n EK 8-6 Alanis Andy (Ender) / HT Derek Google \n WT 8-7 Owen M Matt / HT Ann \n WT 8-8 Anderson Shane / B Shane / HT Google \n WT 8-9 Shane Dylan / HT Derek\n WT 8-10 Delaney Dylan / B Andrew P Andy (Ender) Eok /HT Andy (Ender)/ CT Andy (Ender) \n EK 9-10 Uniss (Sonny) Daniel / B Simeon (Quartz) / HT Tony Daniel / CT Tony \n WT 9-11 Heidy Dylan / HT Dylan / B Winston / HT Ann Jordan (Sugarloaf) Jordan (Sugarloaf) \n EK 10-11 Uniss (Sonny) Andy (Ender) \n WT 10-12 Shane Anderson / B Andrew P Delaney Natalie Google / HT Owen M Andrew P Shane Google / CT Owen M \n EK 11-12 Uniss (Sonny) Eok\n WT 11-13 Alvin Tony \n EK 12-13 Ann Daniel / HT Google Anderson \n EK 13-13 Uniss (Sonny) Andy (Ender) / B Uniss (Sonny) / HT Google \n EK 14-13 Uniss (Sonny) Andy (Ender) / HT Dylan \n EK 15-13 Winston Google / B Antonio / HT Owen M" }
         },
         w2: { 
-            g1: { name: "Fire Nation vs Earth Kingdom", t1: "Fire Nation", t2: "Earth Kingdom", raw: "Start,0,0,Commenced\n FN 1-0 Ryan Mindy \n EK 1-1 Ann Kevin / HT Cory Nathaniel / B Andy (Ender) \n EK 1-2 Owen Z Carmen / HT Quake \n FN 2-2 Stephen Quake \n EK 2-3 Kevin Uniss (Sonny) \n EK 2-4 Google Ann / HT Ryan \n FN 3-4 Quack Pam \n EK 3-5 Eok Jordan (Sugarloaf) / B Ann Webster/ HT Google Jordan (Sugarloaf) Stephen Jacob (Zuko) Jacob (Zuko)/ CT Eok \n FN 4-5 Quack Cory \n FN 5-5 Mindy Cory / HT Jordan (Sugarloaf) \n EK 5-6 Uniss (Sonny) Owen Z / B Owen Z Winston / HT Cory Kevin / CT Stephen Winston \n FN 6-6 Cory Quake / HT Derek \n EK 6-7 Owen Z Daniel / HT Jacob (Zuko) \n FN 7-7 Cory Quack \n FN 8-7 Pam Cory / HT Quake Google Carmen \n EK 8-8 Owen Z Kevin \n FN 9-8 Cory Quack \n FN 10-8 Jacob (Zuko) Mindy / B Ryan Ryan/ HT Owen Z Owen Z Jacob (Zuko) JT \n FN 11-8 Cory Quack / HT Google \n EK 11-9 Uniss (Sonny) Kevin / B Owen Z /HT Webster Quack / CT Owen Z \n FN 12-9 Quack Cory / HT JT Jordan (Sugarloaf) \n EK 12-10 Owen Z Jordan (Sugarloaf) / B Quake / HT Ben L Quack Cory / CT Keili \n EK 12-11 Alanis Google / B Owen Z / HT Owen Z Google \n FN 13-11 Stephen Ryan / CT Winston \n EK 13-12 Ann Owen Z / CT Quack / HT Cory \n EK 13-13 Carmen Google / B Kevin / HT Winston \n FN 14-13 Cory Pam \n EK 14-14 Uniss (Sonny) Antonio \n FN 15-14 Keili Pam / HT Daniel \n EK 15-15 Uniss (Sonny) Daniel / HT Stephen \n FN 16-15 JT Jacob (Zuko) / HT Quack \n FN 17-15 Quack Webster / B Quack/HT Kevin" }, 
+            g1: { name: "Fire Nation vs Earth Kingdom", t1: "Fire Nation", t2: "Earth Kingdom", raw: "Start,0,0,Commenced\n FN 1-0 Ryan Mindy (Fire) \n EK 1-1 Ann Kevin / HT Cory Nathaniel / B Andy (Ender) \n EK 1-2 Owen Z Carmen / HT Quake \n FN 2-2 Stephen Quake \n EK 2-3 Kevin Uniss (Sonny) \n EK 2-4 Google Ann / HT Ryan \n FN 3-4 Quack Pam \n EK 3-5 Eok Jordan (Sugarloaf) / B Ann Webster/ HT Google Jordan (Sugarloaf) Stephen Jacob (Zuko) Jacob (Zuko)/ CT Eok \n FN 4-5 Quack Cory \n FN 5-5 Mindy (Fire) Cory / HT Jordan (Sugarloaf) \n EK 5-6 Uniss (Sonny) Owen Z / B Owen Z Winston / HT Cory Kevin / CT Stephen Winston \n FN 6-6 Cory Quake / HT Derek \n EK 6-7 Owen Z Daniel / HT Jacob (Zuko) \n FN 7-7 Cory Quack \n FN 8-7 Pam Cory / HT Quake Google Carmen \n EK 8-8 Owen Z Kevin \n FN 9-8 Cory Quack \n FN 10-8 Jacob (Zuko) Mindy (Fire) / B Ryan Ryan/ HT Owen Z Owen Z Jacob (Zuko) JT \n FN 11-8 Cory Quack / HT Google \n EK 11-9 Uniss (Sonny) Kevin / B Owen Z /HT Webster Quack / CT Owen Z \n FN 12-9 Quack Cory / HT JT Jordan (Sugarloaf) \n EK 12-10 Owen Z Jordan (Sugarloaf) / B Quake / HT Ben L Quack Cory / CT Keili \n EK 12-11 Alanis Google / B Owen Z / HT Owen Z Google \n FN 13-11 Stephen Ryan / CT Winston \n EK 13-12 Ann Owen Z / CT Quack / HT Cory \n EK 13-13 Carmen Google / B Kevin / HT Winston \n FN 14-13 Cory Pam \n EK 14-14 Uniss (Sonny) Antonio \n FN 15-14 Keili Pam / HT Daniel \n EK 15-15 Uniss (Sonny) Daniel / HT Stephen \n FN 16-15 JT Jacob (Zuko) / HT Quack \n FN 17-15 Quack Webster / B Quack/HT Kevin" }, 
             g2: { name: "Air Nomads vs Water Tribe", t1: "Air Nomads", t2: "Water Tribe", raw: "Start,0,0,Commenced \n AN 1-0 Zuma Mitchell / B Bao Owen M Shane Simeon (Quartz) / HT Tony Simeon (Quartz) / CT Shane Jae Dylan \n AN 2-0 Zuma Duke / B Shane Ben (Chain) Simeon (Quartz) / HT Zuma Zuma Tony Tony Dylan / CT Dylan \n AN 3-0 Jae Victor / B Alvin / HT Simeon (Quartz) Simeon (Quartz) Anderson \n WT 3-1 Owen M Tony \n WT 3-2 Anderson Tony \n AN 4-2 Mitchell Zuma / HT Dylan Dylan \n WT 4-3 Dylan Shane \n AN 5-3 Anthony G Jae / CT Mitchell \n AN 6-3 Ben (Chain) Victor / B Shane / HT Ben (Chain) Dylan Tony Tony Jae \n WT 6-4 Alvin Owen M / HT Shane Dylan Owen M \n WT 6-5 Dylan Jimmy / B Shane Dylan Simeon (Quartz) Dylan / HT Simeon (Quartz) Dylan Tony \n AN 7-5 Andrew H Jae / HT Leon Jae \n WT 7-6 Owen M Tony / B Jae / CT Bao \n AN 8-6 Bao Duke \n WT 8-7 Delaney Dylan /B Dylan Tony/ HT Tony Dylan / CT Heidy \n AN 9-7 Leon Amber / B Anthony G / HT Zuma Jae \n  WT 9-8 Delaney Dylan \n AN 10-8 Mitchell Anthony G / B Duke \n WT 10-9 Delaney Shane \n AN 11-9 Jae Zuma / B Dylan / HT Owen M Heidy Dylan \n WT 11-10 Shane Alvin / B Tony Simeon (Quartz) Duke / HT Shane Bao / CT Shane Owen M Amber \n AN 12-10 Mitchell Jae \n WT 12-11 Shane Dylan / B Amber / HT Andrew H \n AN 13-11 Mitchell Ben (Chain) / HT Delaney Delaney \n WT 13-12 Tony Alvin / B Mitchell \n AN 14-12 Zuma Anthony G \n WT 14-13 Shane Dylan \n AN 15-13 Jae Leon / B Leon " }
         },
-        w3: { g1: { name: "Air Nomads vs Earth Kingdom", t1: "Air Nomads", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" }, g2: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced" } },
+        w3: { 
+            g1: { name: "Air Nomads vs Earth Kingdom", t1: "Air Nomads", t2: "Earth Kingdom", raw: "Start,0,0,Commenced \n AN 1-0 Mitchell Victor / B Ben (Chain) / HT Owen Z \n EK 1-1 Uniss (Sonny) Antonio \n AN 2-1 Anthony G Victor / B Uniss (Sonny) Ben (Chain) / CT Eok Cheryl / HT Alanis Eok \n EK 2-2 Antonio Andy (Ender) / HT Jae Jordan (Sugarloaf) \n AN 3-2 Mitchell Anthony G \n EK 3-3 Antonio Andy (Ender) \n AN 4-3 Mindy (Air) Victor \n EK 4-4 Carmen Maddie (Earth) / HT Daniel Mindy (Air) / CT Carmen / B Daniel \n AN 5-4 Jae Victor \n EK 5-5 Alanis Andy (Ender) \n AN 6-5 Jae Mindy (Air) / HT Carmen Ben (Chain) / CT Jordan (Sugarloaf) \n AN 7-5 Maarten Anthony G / B Anthony G \n EK 7-6 Andy (Ender) Carmen \n AN 8-6 Anthony G Cheryl \n EK 8-7 Uniss (Sonny) Andy (Ender) \n EK 8-8 Andy (Ender) Owen Z / HT Victor \n AN 9-8 Mitchell Duke / B Ben (Chain) / CT Briana \n EK 9-9 Andy (Ender) Daniel / B Owen Z \n EK 9-10 Alanis Daniel / HT Duke \n AN 10-10 Jae Ben (Chain) / HT Andy (Ender) \n EK 10-11 Daniel Andy (Ender) / B Nathaniel \n AN 11-11 Jae Leon \n EK 11-12 Carmen Andy (Ender) \n AN 12-12 Jae Abe / HT Jackson (Earth) \n AN 13-12 Mitchell Anthony G / HT Jackson (Earth)\n EK 13-13 Jordan (Sugarloaf) Carmen \n EK 13-14 Andy (Ender) Owen Z / B Andy (Ender) / CT Owen Z \n AN 14-14 Ben (Chain) Victor / B Carmen / HT Jackson (Earth) Uniss (Sonny) Victor \n EK 14-15 Andy (Ender) Owen Z \n AN 15-15 Jae Victor \n EK 15-16 Andy (Ender) Owen Z \n EK 15-17 Alanis Antonio / B Antonio Antonio Andy (Ender) / HT Jackson (Earth)" },
+            g2: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced \n FN 0-1 Ryan Cory / HT Quake Matt / CT Owen M Ryan \n WT 1-1 Heidy Anna \n FN 1-2 Cory Webster \n WT 2-2 Dylan Matt / B Tony / HT Quake Anna / CT Tony \n FN 2-3 Stephen Jacob (Zuko) / B Anderson \n FN 2-4 Grant Webster / HT Owen M Quack / CT Owen M \n WT 3-4 Shane Dylan / B Cory Jimmy / HT Shane Cory Delaney Emily \n FN 3-5 Keili Quack / B Dylan Grant Matt Link / HT Jacob (Zuko) Anderson Webster Dylan JT Anna Grant Matt \n FN 3-6 Emily Cory / CT Jimmy \n FN 3-7 Ben L Quack \n FN 3-8 Cory Quake \n WT 4-8 Tony Dylan \n FN 4-9 Cory Webster / B Quake / HT Cory Owen M \n FN 4-10 Keili Quack / HT Tony \n WT 5-10 Dylan Shane / HT Heidy Cory\n WT 6-10 Shane Dylan / B Shane / HT Quack \n WT 7-10 Anna Dylan / B Anna Dylan / HT Ryan Dylan Tony Grant \n FN 7-11 Jacob (Zuko) Stephen / B Stephen Stephen / HT Webster Matt JT Delaney \n WT 8-11 Dylan Alvin \n FN 8-12 Quack Jacob (Zuko) \n FN 8-13 Ryan Cory / B Cory / HT Dylan \n WT 9-13 Owen M Anna / B Dylan \n FN 9-14 Stephen Cory \n WN 10-14 Shane Dylan \n WN 11-14 Anna Shane / HT Emily \n FN 11-15 Ryan Cory" } },
         w4: { g1: { name: "Earth Kingdom vs Water Tribe", t1: "Earth Kingdom", t2: "Water Tribe", raw: "Start,0,0,Commenced" }, g2: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced" } },
         w5: { g1: { name: "Water Tribe vs Air Nomads", t1: "Water Tribe", t2: "Air Nomads", raw: "Start,0,0,Commenced" }, g2: { name: "Fire Nation vs Earth Kingdom", t1: "Fire Nation", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" } },
         w6: { g1: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced" }, g2: { name: "Air Nomads vs Earth Kingdom", t1: "Air Nomads", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" } },
@@ -311,16 +313,16 @@ button, input, textarea, select { font: inherit; }
     // ================================================================
     var participation = {
         w1: {
-            g1: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Nick", "Quack", "Quake", "Ryan", "Stephen", "Emily", "Keili", "Mindy", "Pam", "Webster", "Abe", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jae", "Leon", "Mitchell", "Victor", "Amber", "Bao", "Emily (Sub)" , "Kim"], // Fire Nation vs Air Nomads
+            g1: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Nick", "Quack", "Quake", "Ryan", "Stephen", "Emily", "Keili", "Mindy (Fire)", "Pam", "Webster", "Abe", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jae", "Leon", "Mitchell", "Victor", "Amber", "Bao", "Emily (Air)" , "Kim"], // Fire Nation vs Air Nomads
             g2: ["Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Nathaniel", "Winston", "Alanis", "Ann", "Uniss (Sonny)", "Alvin", "Anderson", "Andrew P", "Dylan", "Jimmy", "Matt", "Owen M", "Shane", "Simeon (Quartz)", "Tony", "Delaney", "Heidy", "Natalie"]  // Earth Kingdom vs Water Tribe
         },
         w2: {
-            g1: ["Ben L", "Cory", "Jacob (Zuko)", "JT", "Quack", "Quake", "Ryan", "Stephen", "Keili", "Mindy", "Pam", "Webster", "Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Owen Z", "Winston", "Alanis", "Ann", "Carmen", "Uniss (Sonny)"], // Fire Nation vs Earth Kingdom
+            g1: ["Ben L", "Cory", "Jacob (Zuko)", "JT", "Quack", "Quake", "Ryan", "Stephen", "Keili", "Mindy (Fire)", "Pam", "Webster", "Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Owen Z", "Winston", "Alanis", "Ann", "Carmen", "Uniss (Sonny)"], // Fire Nation vs Earth Kingdom
             g2: ["Alvin", "Anderson", "Dylan", "Jimmy", "Owen M", "Shane", "Simeon (Quartz)", "Tony", "Delaney", "Heidy", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jae", "Leon", "Mitchell", "Victor", "Amber", "Bao", "Zuma"]  // Air Nomads vs Water Tribe
         },
         w3: {
-            g1: [], // Air Nomads vs Earth Kingdom
-            g2: []  // Water Tribe vs Fire Nation
+            g1: ["Abe", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jae", "Leon", "Maarten", "Mitchell", "Victor", "Cheryl", "Mindy (Air)", "Maddie (Air)" ,"Maddie (Earth)", "Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Jordan (Sugarloaf)", "Nathaniel", "Owen Z", "Alanis", "Ann", "Carmen", "Uniss (Sonny)", "Briana", "Jackson (Earth)"], // Air Nomads vs Earth Kingdom
+            g2: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Quack", "Quake", "Ryan", "Stephen", "Emily", "Keili", "Pam", "Webster", "Alvin", "Anderson", "Dylan", "Jimmy", "Matt", "Owen M", "Shane", "Tony", "Anna", "Delaney", "Heidy"]  // Water Tribe vs Fire Nation
         },
         w4: {
             g1: [], // Earth Kingdom vs Water Tribe
@@ -353,7 +355,7 @@ button, input, textarea, select { font: inherit; }
     // ================================================================
     var unassignedEvents = {
         w1: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:["Antonio"], HTurn:[], CTurn:[]} },
-        w2: { g1: {Block:["Mindy"], HTurn:[], CTurn:[]}, g2: {Block:[], HTurn:[], CTurn:[]} },
+        w2: { g1: {Block:["Mindy (Fire)"], HTurn:[], CTurn:[]}, g2: {Block:["Anthony G", "Ben (Chain)"], HTurn:["Andrew H", "Ben (Chain)", "Duke", "Duke", "Amber"], CTurn:[]} },
         w3: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:[], HTurn:[], CTurn:[]} },
         w4: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:[], HTurn:[], CTurn:[]} },
         w5: { g1: {Block:[], HTurn:[], CTurn:[]}, g2: {Block:[], HTurn:[], CTurn:[]} },
@@ -401,7 +403,7 @@ button, input, textarea, select { font: inherit; }
         w8: { g1: [], g2: [] }
     };
 
-    var activeWeek = 2; var targetModalGame = "g1"; var CODE_PASS = "fall2026";
+    var activeWeek = 3; var targetModalGame = "g1"; var CODE_PASS = "fall2026";
     var tableSortState = { g1: { index: 0, dir: "asc" }, g2: { index: 0, dir: "asc" } };
     function openAdminModal(gk) {
         var game = leagueData["w" + activeWeek] && leagueData["w" + activeWeek][gk];
@@ -524,7 +526,7 @@ button, input, textarea, select { font: inherit; }
         // Compact league-data format supports both:
         //   Goal Assist / defensive events
         // and a simple Goal Assist line when there are no defensive events.
-        // The latter is needed for lines such as "FN 1-0 Mindy Cory".
+        // The latter is needed for lines such as "FN 1-0 Mindy (Fire) Cory".
         if (!/(Goal by|Assist by|Block by|HTurn by|CTurn by|Foul by|Handler turnover by|Cutter turnover by)/i.test(play)) return parseCompactPoint(play);
 
         var re = /(Goal by|Assist by|Block by|HTurn by|CTurn by|Foul by|Handler turnover by|Cutter turnover by)\s*/gi;
