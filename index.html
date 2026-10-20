@@ -178,21 +178,20 @@ button, input, textarea, select { font: inherit; }
     <header><h1>🥏 Rosemead League Fall 2026 Stats 🔥⛰️💨🌊 </h1></header>
     <div class="tabs">
         <button class="tab-btn" onclick="switchTab('season')">Season Totals</button>
-        <button class="tab-btn" onclick="switchWeek(1)">Week 1</button>
-        <button class="tab-btn" onclick="switchWeek(2)">Week 2</button>
-        <button class="tab-btn" onclick="switchWeek(3)">Week 3</button>
-        <button class="tab-btn active" onclick="switchWeek(4)">Week 4</button>
-        <button class="tab-btn" onclick="switchWeek(5)">Week 5</button>
-        <button class="tab-btn" onclick="switchWeek(6)">Week 6</button>
-        <button class="tab-btn" onclick="switchWeek(7)">Week 7</button>
-        <button class="tab-btn" onclick="switchWeek(8)">Week 8</button>
+        <button class="tab-btn" onclick="switchWeek(1)">Week 1 (9/14)</button>
+        <button class="tab-btn" onclick="switchWeek(2)">Week 2 (9/21)</button>
+        <button class="tab-btn" onclick="switchWeek(3)">Week 3 (9/28)</button>
+        <button class="tab-btn" onclick="switchWeek(4)">Week 4 (10/5)</button>
+        <button class="tab-btn active" onclick="switchWeek(5)">Week 5 (10/19)</button>
+        <button class="tab-btn" onclick="switchWeek(6)">Week 6 - Game 1 (10/26)</button>
+        <button class="tab-btn" onclick="switchWeek(7)">Week 6 - Game 2 (10/26)</button>
     </div>
     <div id="seasonView" style="display:none;">
         <div class="panel season-panel">
             <h2>📊 Team Standings</h2>
             <div class="season-standings-wrap">
                 <table class="season-standings-table">
-                    <thead><tr><th>Team</th><th>W-L</th><th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th><th>Week 5</th><th>Week 6</th><th>Week 7</th><th>Week 8</th></tr></thead>
+                    <thead><tr><th>Team</th><th>W-L</th><th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th><th>Week 5</th><th>Week 6 - Game 1</th><th>Week 6 - Game 2</th></tr></thead>
                     <tbody id="seasonStandings"></tbody>
                 </table>
             </div>
@@ -241,14 +240,14 @@ button, input, textarea, select { font: inherit; }
                 <div class="chart-wrapper"><div class="chart-controls"><span>Zoom</span><input class="chart-zoom" id="g1-zoom" type="range" min="80" max="180" value="100" step="10" aria-label="Chart zoom"><span class="chart-zoom-value" id="g1-zoom-value">100%</span><button class="chart-reset" type="button" onclick="resetChartZoom('g1')">Reset</button></div><div class="chart-scroll"><div id="g1-chart"></div></div><div id="g1-tooltip" class="tooltip"></div></div>
                 <div class="legend" id="g1-legend"></div><div class="participation-status" id="g1-participation-status"></div><button type="button" class="admin-link" onclick="openAdminModal('g1'); return false;">Edit Logs</button>
                 <div id="g1-warnings"></div>
-                <div style="overflow-x:auto;"><table class="stats-table"><thead><tr><th onclick="sortGameTable('g1',0)">Player</th><th onclick="sortGameTable('g1',1)">Gender</th><th onclick="sortGameTable('g1',2)">Score</th><th onclick="sortGameTable('g1',3)">Assist</th><th onclick="sortGameTable('g1',4)">Block</th><th onclick="sortGameTable('g1',5)">Handler Turnover</th><th onclick="sortGameTable('g1',6)">Cutter Turnover</th><th onclick="sortGameTable('g1',7)">Fouls</th></tr></thead><tbody id="g1-table"></tbody></table></div>
+                <div style="overflow-x:auto;"><table class="stats-table"><thead><tr><th onclick="sortGameTable('g1',0)">Player</th><th onclick="sortGameTable('g1',1)">Gender</th><th onclick="sortGameTable('g1',2)">Score</th><th onclick="sortGameTable('g1',3)">Assist</th><th onclick="sortGameTable('g1',4)">Block</th><th onclick="sortGameTable('g1',5)">Handler Turnover</th><th onclick="sortGameTable('g1',6)">Cutter Turnover</th></tr></thead><tbody id="g1-table"></tbody></table></div>
             </div>
             <div class="game-card">
                 <div class="game-title" id="g2-title">Matchup 2</div>
                 <div class="chart-wrapper"><div class="chart-controls"><span>Zoom</span><input class="chart-zoom" id="g2-zoom" type="range" min="80" max="180" value="100" step="10" aria-label="Chart zoom"><span class="chart-zoom-value" id="g2-zoom-value">100%</span><button class="chart-reset" type="button" onclick="resetChartZoom('g2')">Reset</button></div><div class="chart-scroll"><div id="g2-chart"></div></div><div id="g2-tooltip" class="tooltip"></div></div>
                 <div class="legend" id="g2-legend"></div><div class="participation-status" id="g2-participation-status"></div><button type="button" class="admin-link" onclick="openAdminModal('g2'); return false;">Edit Logs</button>
                 <div id="g2-warnings"></div>
-                <div style="overflow-x:auto;"><table class="stats-table"><thead><tr><th onclick="sortGameTable('g2',0)">Player</th><th onclick="sortGameTable('g2',1)">Gender</th><th onclick="sortGameTable('g2',2)">Score</th><th onclick="sortGameTable('g2',3)">Assist</th><th onclick="sortGameTable('g2',4)">Block</th><th onclick="sortGameTable('g2',5)">Handler Turnover</th><th onclick="sortGameTable('g2',6)">Cutter Turnover</th><th onclick="sortGameTable('g2',7)">Fouls</th></tr></thead><tbody id="g2-table"></tbody></table></div>
+                <div style="overflow-x:auto;"><table class="stats-table"><thead><tr><th onclick="sortGameTable('g2',0)">Player</th><th onclick="sortGameTable('g2',1)">Gender</th><th onclick="sortGameTable('g2',2)">Score</th><th onclick="sortGameTable('g2',3)">Assist</th><th onclick="sortGameTable('g2',4)">Block</th><th onclick="sortGameTable('g2',5)">Handler Turnover</th><th onclick="sortGameTable('g2',6)">Cutter Turnover</th></tr></thead><tbody id="g2-table"></tbody></table></div>
             </div>
         </div>
     </div>
@@ -266,19 +265,19 @@ button, input, textarea, select { font: inherit; }
 <script>
     var rosters = {
         "Fire Nation": { 
-            Men: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Nick", "Quack", "Quake", "Ryan", "Stephen", "Thom"], 
-            Women: ["Emily", "Keili", "Mindy (Fire)", "Pam", "Webster"] 
+            Men: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Nick", "Quack", "Quake", "Ryan", "Stephen", "Thom (Fire)"], 
+            Women: ["Emily", "Keili", "Mindy (Fire)", "Pam", "Webster", "Grace (Fire)"] 
         },
         "Earth Kingdom": { 
-            Men: ["Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Owen Z", "Winston", "Jackson (Earth)"], 
-            Women: ["Alanis", "Ann", "Carmen", "Uniss (Sonny)", "Maddie (Earth)", "Briana (Earth)", "Zuma (Earth)"] 
+            Men: ["Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Owen Z", "Winston", "Jackson (Earth)", "Rico"], 
+            Women: ["Alanis", "Ann", "Carmen", "Uniss (Sonny)", "Maddie (Earth)", "Briana (Earth)", "Zuma (Earth)", "Emily (Earth)"] 
         },
         "Air Nomads": { 
-            Men: ["Abe", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jacob", "Jae", "Leon", "Maarten", "Mitchell", "Victor", "Claw"], 
+            Men: ["Abe", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jacob", "Jae", "Leon", "Maarten", "Mitchell", "Victor", "Claw", "Thom"], 
             Women: ["Amber", "Bao", "Cheryl", "Emily (Air)", "Kim", "Zuma (Air)", "Mindy (Air)", "Briana (Air)", "Maddie (Air)", "Karen", "Natalie (Air)"] 
         },
         "Water Tribe": { 
-            Men: ["Alvin", "Anderson", "Andrew P", "Dylan", "Jimmy", "Matt", "Owen M", "Shane", "Simeon (Quartz)", "Tony", "Jackson"], 
+            Men: ["Alvin", "Anderson", "Andrew P", "Dylan", "Jimmy", "Matt", "Owen M", "Shane", "Simeon (Quartz)", "Tony", "Jackson", "Taka"], 
             Women: ["Anna", "Delaney", "Heidy", "Natalie", "Joya"] 
         }
     };
@@ -300,8 +299,10 @@ button, input, textarea, select { font: inherit; }
             g2: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced \n FN 0-1 Ryan Cory / HT Quake Matt / CT Owen M Ryan \n WT 1-1 Heidy Anna \n FN 1-2 Cory Webster \n WT 2-2 Dylan Matt / B Tony / HT Quake Anna / CT Tony \n FN 2-3 Stephen Jacob (Zuko) / B Anderson \n FN 2-4 Grant Webster / HT Owen M Quack / CT Owen M \n WT 3-4 Shane Dylan / B Cory Jimmy / HT Shane Cory Delaney Emily \n FN 3-5 Keili Quack / B Dylan Grant Matt Link / HT Jacob (Zuko) Anderson Webster Dylan JT Anna Grant Matt \n FN 3-6 Emily Cory / CT Jimmy \n FN 3-7 Ben L Quack \n FN 3-8 Cory Quake \n WT 4-8 Tony Dylan \n FN 4-9 Cory Webster / B Quake / HT Cory Owen M \n FN 4-10 Keili Quack / HT Tony \n WT 5-10 Dylan Shane / HT Heidy Cory\n WT 6-10 Shane Dylan / B Shane / HT Quack \n WT 7-10 Anna Dylan / B Anna Dylan / HT Ryan Dylan Tony Grant \n FN 7-11 Jacob (Zuko) Stephen / B Stephen Stephen / HT Webster Matt JT Delaney \n WT 8-11 Dylan Alvin \n FN 8-12 Quack Jacob (Zuko) \n FN 8-13 Ryan Cory / B Cory / HT Dylan \n WT 9-13 Owen M Anna / B Dylan Jacob (Zuko) \n FN 9-14 Stephen Cory \n WN 10-14 Shane Dylan \n WN 11-14 Anna Shane / HT Emily \n FN 11-15 Ryan Cory" } },
         w4: {
             g1: { name: "Earth Kingdom vs Water Tribe", t1: "Earth Kingdom", t2: "Water Tribe", raw: "Start,0,0,Commenced \n WT 0-1 Owen M Dylan / B Shane / HT Joya Kevin / CT Heidy \n EK 1-1 Andy (Ender) Google \n WT 1-2 Delaney Dylan / B Anderson Kevin / HT Heidy Dylan Anderson Andy (Ender) Zuma / CT Jordan (Sugarloaf) \n EK 2-2 Antonio Daniel / HT Owen Z Briana (Earth) Shane Tony / B Shane Shane \n EK 3-2 Andy (Ender) Google / CT Dylan \n WT 3-3 Alvin Dylan / B Jordan (Sugarloaf) / HT Tony Simeon (Quartz) Jordan (Sugarloaf) Google / CT Google \n EK 4-3 Andy (Ender) Zuma (Earth) \n EK 5-3 Antonio Andy (Ender) / HT Owen M \n WT 5-4 Tony Jackson \n WT 5-5 Dylan Jackson / B Antonio Anderson Anderson / HT Antonio Dylan Joya / CT Google Owen Z \n WT 5-6 Shane Simeon (Quartz) / B Shane / HT Shane Daniel Zuma (Earth) Zuma (Earth) \n EK 6-6 Antonio Google / HT Google Dylan \n WT 7-6 Heidy Owen M \n EK 7-7 Andy (Ender) Jordan (Sugarloaf) / B Jordan (Sugarloaf) / HT Google Antonio Simeon (Quartz) \n EK 8-7 Briana (Earth) Kevin / B Dylan Heidy Antonio / HT Jackson Jackson Jackson Zuma (Earth) Andy (Ender)/ CT Jackson \n EK 9-7 Briana (Earth) Google \n WT 9-8 Jackson Andrew P / B Briana (Earth) / HT Daniel / CT Delaney \n EK 10-8 Antonio Owen Z / B Kevin Heidy Shane Dylan / HT Kevin Kevin Dylan \n EK 11-8 Zuma (Earth) Eok / B Andy (Ender) Jimmy / HT Kevin Jimmy / CT Simeon (Quartz) Simeon (Quartz) \n EK 12-8 Antonio Google / B Tony / HT Google Dylan / CT Heidy \n WT 12-9 Shane Dylan \n EK 13-9 Andy (Ender) Briana (Earth) / HT Google / CT Google \n EK 14-9 Owen Z Google / B Anderson / HT Tony / CT Jimmy \n WT 14-10 Shane Dylan / CT Nathaniel \n WT 14-11 Owen M Shane \n WT 14-12 Shane Dylan \n EK 15-12 Briana (Earth) Zuma (Earth) " }, 
-            g2: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced \n FN 1-0 Stephen Cory / B Ryan Duke / HT Jae Ryan \n AN 1-1 Mindy (Air) Abe / HT Quake Emily (Air) \n FN 2-1 Webster Cory \n AN 2-2 Abe Jae \n FN 3-2 Grant Cory / HT Cory Andrew P \n AN 3-3 Mindy (Air) Victor / HT Ryan / CT Abe \n FN 4-3 Cory Quake \n AN 4-4 Jae Victor \n FN 5-4 Stephen Quake \n AN 5-5 Duke Abe / HT Webster Victor \n AN 5-6 Emily (Air) Claw / CT Stephen \n AN 5-7 Andrew H Victor / B Victor Grant Ben (Chain) / HT Thom Jae Pam Jae Mindy (Air) JT Ben (Chain) Ben L / CT Andrew H Keili \n FN 6-7 Cory Jacob (Zuko) \n FN 7-7 Grant Cory / HT Mindy (Air) JT Victor \n AN 7-8 Ben (Chain) Mitchell / B Ryan Ben (Chain) / HT Leon Quake Duke Thom Pam / CT Natalie (Air) \n AN 7-9 Mitchell Claw \n AN 7-10 Natalie (Air) Duke \n FN 8-10 Keili Pam \n AN 8-11 Jae Ben (Chain) \n FN 9-11 Thom Cory \n AN 9-12 Jae Claw \n FN 10-12 Cory Grant \n AN 10-13 Natalie (Air) Jae \n FN 11-13 Pam Jacob (Zuko) / B Maarten Stephen / HT Cory Mindy (Air) \n AN 11-14 Jae Natalie (Air) / B Claw / HT Quake Quake Claw / CT Leon \n FN 12-14 Stephen Cory / HT Jacob (Zuko) Mindy (Air) \n FN 13-14 Grant Cory / B Jae / HT Keili / CT Karen \n FN 14-14 Stephen Jacob (Zuko) / HT Leon \n FN 15-14 Quake Cory / B Ryan / HT Maarten / CT Emily (Air) \n FN 16-14 Ben L Thom " } },
-        w5: { g1: { name: "Water Tribe vs Air Nomads", t1: "Water Tribe", t2: "Air Nomads", raw: "Start,0,0,Commenced" }, g2: { name: "Fire Nation vs Earth Kingdom", t1: "Fire Nation", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" } },
+            g2: { name: "Fire Nation vs Air Nomads", t1: "Fire Nation", t2: "Air Nomads", raw: "Start,0,0,Commenced \n FN 1-0 Stephen Cory / B Ryan Duke / HT Jae Ryan \n AN 1-1 Mindy (Air) Abe / HT Quake Emily (Air) \n FN 2-1 Webster Cory \n AN 2-2 Abe Jae \n FN 3-2 Grant Cory / HT Cory Andrew P \n AN 3-3 Mindy (Air) Victor / HT Ryan / CT Abe \n FN 4-3 Cory Quake \n AN 4-4 Jae Victor \n FN 5-4 Stephen Quake \n AN 5-5 Duke Abe / HT Webster Victor \n AN 5-6 Emily (Air) Claw / CT Stephen \n AN 5-7 Andrew H Victor / B Victor Grant Ben (Chain) / HT Thom (Fire) Jae Pam Jae Mindy (Air) JT Ben (Chain) Ben L / CT Andrew H Keili \n FN 6-7 Cory Jacob (Zuko) \n FN 7-7 Grant Cory / HT Mindy (Air) JT Victor \n AN 7-8 Ben (Chain) Mitchell / B Ryan Ben (Chain) / HT Leon Quake Duke Thom (Fire) Pam / CT Natalie (Air) \n AN 7-9 Mitchell Claw \n AN 7-10 Natalie (Air) Duke \n FN 8-10 Keili Pam \n AN 8-11 Jae Ben (Chain) \n FN 9-11 Thom (Fire) Cory \n AN 9-12 Jae Claw \n FN 10-12 Cory Grant \n AN 10-13 Natalie (Air) Jae \n FN 11-13 Pam Jacob (Zuko) / B Maarten Stephen / HT Cory Mindy (Air) \n AN 11-14 Jae Natalie (Air) / B Claw / HT Quake Quake Claw / CT Leon \n FN 12-14 Stephen Cory / HT Jacob (Zuko) Mindy (Air) \n FN 13-14 Grant Cory / B Jae / HT Keili / CT Karen \n FN 14-14 Stephen Jacob (Zuko) / HT Leon \n FN 15-14 Quake Cory / B Ryan / HT Maarten / CT Emily (Air) \n FN 16-14 Ben L Thom (Fire) " } },
+        w5: { 
+            g1: { name: "Water Tribe vs Air Nomads", t1: "Water Tribe", t2: "Air Nomads", raw: "Start,0,0,Commenced \n AN 0-1 Jae Amber / B Shane Victor Dylan / HT Ben (Chain) Jae Simeon (Quartz) Shane \n WT 1-1 Simeon (Quartz) Owen M \n AN 1-2 Jae Victor \n WT 2-2 Owen M Andrew P / CT Andrew P / B Duke \n WT 3-2 Dylan Simeon (Quartz) / CT Victor \n WT 4-2 Andrew P Tony / HT Abe \n WT 5-2 Anderson Owen M / HT Anthony G \n WT 6-2 Jimmy Simeon (Quartz) / B Shane / HT Cheryl \n AN 6-3 Anthony G Victor / B Delaney Anthony G / HT Delaney \n WT 7-3 Owen M Matt \n AN 7-4 Bao Anthony G \n AN 7-5 Abe Jae / B Jae Victor / HT Abe Abe / CT Jimmy \n WT 8-5 Owen M Dylan \n WT 9-5 Simeon (Quartz) Shane / B Tony Shane / HT Abe Duke \n AN 9-6 Briana (Air) Anthony G  \n WT 10-6 Dylan Tony / B Jacob / HT Tony Duke \n AN 10-7 Bao Victor / B Jimmy / HT Jackson / CT Anthony G \n AN 10-8 Amber Leon / B Abe / HT Matt Ben (Chain) Owen M Simeon (Quartz) \n WT 11-8 Jackson Anderson / B Anderson \n AN 11-9 Cheryl Abe \n WT 12-9 Heidy Dylan / B Victor Simeon (Quartz) / HT Victor Tony Victor Heidy \n AN 12-10 Ben (Chain) Duke / B Dylan Jackson / HT Duke / CT Dylan Matt \n WT 13-10 Shane Tony \n WT 14-10 Shane Dylan / B Jae Shane / HT Owen M Abe Simeon (Quartz) Victor Ben (Chain) Dylan Jae Dylan Briana (Air) / CT Cheryl Jae \n WT 15-10 Taka Tony / HT Victor "}, 
+            g2: { name: "Fire Nation vs Earth Kingdom", t1: "Fire Nation", t2: "Earth Kingdom", raw: "Start,0,0,Commenced \n EK 0-1 Andy (Ender) Kevin / B Google Google / HT Pam / CT Ryan Uniss (Sonny) \n FN 1-1 Grant Pam / B Antonio / HT Pam Google \n FN 2-1 Cory Quack / B Quack / HT Nathaniel \n FN 3-1 Ben L Cory / B Antonio Cory Webster / HT Antonio Cory Kevin Kevin \n EK 3-2 Andy (Ender) Google \n FN 4-2 Grant Cory \n EK 4-3 Emily (Earth) Antonio \n FN 5-3 Quake Quack \n EK 5-4 Uniss (Sonny) Daniel / HT Owen Z Keili \n FN 6-4 Quack Cory \n EK 6-5 Andy (Ender) Owen Z \n FN 7-5 Cory Jacob (Zuko) \n FN 8-5 Stephen Quack / B Quack / HT Quack Owen Z / CT Emily (Earth) \n EK 8-6 Alanis Google / HT Google Ryan Google / CT Daniel Webster \n FN 9-6 Pam Quake / B Winston / HT Quake Derek Quake \n FN 10-6 Ryan Cory / B Quack Quack / HT Cory Owen Z Jordan (Sugarloaf) Jordan (Sugarloaf) \n FN 11-6 Webster Jacob (Zuko) / B Uniss (Sonny) Stephen / HT Quake Uniss (Sonny) / CT Pam Uniss (Sonny) \n EK 11-7 Alanis Andy (Ender) / B Keili / HT Ryan Daniel \n FN 12-7 JT Grant / B Kevin / HT Quake Daniel \n FN 13-7 Cory Ryan / HT Google \n EK 13-8 Rico Kevin \n FN 14-8 Stephen Cory \n EK 14-9 Alanis Andy (Ender) \n FN 15-9 Stephen Quack / B Google / HT JT Uniss (Sonny)" } },
         w6: { g1: { name: "Water Tribe vs Fire Nation", t1: "Water Tribe", t2: "Fire Nation", raw: "Start,0,0,Commenced" }, g2: { name: "Air Nomads vs Earth Kingdom", t1: "Air Nomads", t2: "Earth Kingdom", raw: "Start,0,0,Commenced" } },
         w7: { g1: { name: "Semifinals Match 1", t1: "Seed 1", t2: "Seed 4", raw: "Start,0,0,Semifinal A commenced" }, g2: { name: "Semifinals Match 2", t1: "Seed 2", t2: "Seed 3", raw: "Start,0,0,Semifinal B commenced" } },
         w8: { g1: { name: "Championship Final", t1: "Finalist A", t2: "Finalist B", raw: "Start,0,0,Gold medal final match" }, g2: { name: "Consolation Game", t1: "Consolation A", t2: "Consolation B", raw: "Start,0,0,Bronze medal consolation" } }
@@ -328,11 +329,11 @@ button, input, textarea, select { font: inherit; }
         },
         w4: {
             g1: ["Alvin", "Anderson", "Andrew P", "Dylan", "Jimmy", "Owen M", "Shane", "Simeon (Quartz)", "Tony", "Jackson", "Delaney", "Heidy", "Joya","Andy (Ender)", "Antonio", "Daniel", "Derek", "Eok", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Owen Z", "Briana (Earth)", "Zuma (Earth)"], // Earth Kingdom vs Water Tribe
-            g2: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Quake", "Ryan", "Stephen", "Thom", "Keili", "Pam", "Webster", "Abe", "Andrew H", "Ben (Chain)", "Duke", "Jacob", "Jae", "Leon", "Maarten", "Mitchell", "Victor", "Claw",  "Cheryl", "Emily (Air)", "Mindy (Air)", "Karen", "Natalie (Air)"]  // Fire Nation vs Air Nomads
+            g2: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Quake", "Ryan", "Stephen", "Thom (Fire)", "Keili", "Pam", "Webster", "Abe", "Andrew H", "Ben (Chain)", "Duke", "Jacob", "Jae", "Leon", "Maarten", "Mitchell", "Victor", "Claw",  "Cheryl", "Emily (Air)", "Mindy (Air)", "Karen", "Natalie (Air)"]  // Fire Nation vs Air Nomads
         },
         w5: {
-            g1: [], // Water Tribe vs Air Nomads
-            g2: []  // Fire Nation vs Earth Kingdom
+            g1: ["Anderson", "Andrew P", "Dylan", "Jimmy", "Matt", "Owen M", "Shane", "Simeon (Quartz)", "Tony", "Jackson", "Taka",  "Delaney", "Heidy", "Natalie", "Abe", "Andrew H", "Anthony G", "Ben (Chain)", "Duke", "Jacob", "Jae", "Leon", "Maarten", "Victor", "Thom", "Amber", "Bao", "Cheryl", "Briana (Air)"], // Water Tribe vs Air Nomads
+            g2: ["Ben L", "Cory", "Grant", "Jacob (Zuko)", "JT", "Quack", "Quake", "Ryan", "Stephen", "Keili", "Pam", "Webster", "Grace (Fire)", "Andy (Ender)", "Antonio", "Daniel", "Derek", "Google", "Jordan (Sugarloaf)", "Kevin", "Nathaniel", "Owen Z", "Winston", "Rico", "Alanis", "Uniss (Sonny)", "Emily (Earth)"]  // Fire Nation vs Earth Kingdom
         },
         w6: {
             g1: [], // Water Tribe vs Fire Nation
@@ -401,13 +402,14 @@ button, input, textarea, select { font: inherit; }
             g2: ["","","","","","","","","","","Grant with good hands to save possession! Ben L with his first of many career goals!", "", "", "", "", "Dylan and Shane showcasing their league-leading duo chemistry with another deep huck connection!", "Shane with a bookend!", "", "Stephen with two blocks and an assist on a crucial point to stop Water Tribe's run!", "", "", "", "Jacob (Link/Zuko) with a crucial block in the end-zone to prevent a Water Tribe score!"] },
         w4: { g1: ["","Owen Z deep to Andy (Ender)!","","","","Google layout!","","","","","","","","","","Layout block by Dylan!","","Layout block by Shane!", "","","","","","Owen Z sky!","","","","Briana with the game winning catch!"], 
             g2: ["","","","","","","","","","","","","","Jacob dive the possession to an immediate huck!","","","","","","Jae with the nice sprint!","","","","Nat with a nice huck to a score!","","Jae with the layout score!","","","","", "Ben L with the game winning catch!"] },
-        w5: { g1: [], g2: [] },
+        w5: { g1: ["","","","","","","","","","","","","","","","","","","","","", "", "Anthony!!!!!","","",""],
+            g2: ["","","","", "Cory with an intercepting block to assist!", "","","Antonio with an and-1 deep sky over Ryan!","","Jacob (Zuko) huck to Grant!", "","","","","","Winston with the hops for the huge end-zone block","Grant with a great slide by the sideline to receive a huck!","","Keili with a huge endzone block!","","","Kevin with a great huck to Uniss (Sonny)!","Great setup by Pam to thread the needle to Cory","","Stephen with a tough game-winning score!"] },
         w6: { g1: [], g2: [] },
         w7: { g1: [], g2: [] },
         w8: { g1: [], g2: [] }
     };
 
-    var activeWeek = 4; var targetModalGame = "g1"; var CODE_PASS = "fall2026";
+    var activeWeek = 5; var targetModalGame = "g1"; var CODE_PASS = "fall2026";
     var tableSortState = { g1: { index: 0, dir: "asc" }, g2: { index: 0, dir: "asc" } };
     function openAdminModal(gk) {
         var game = leagueData["w" + activeWeek] && leagueData["w" + activeWeek][gk];
@@ -731,7 +733,7 @@ button, input, textarea, select { font: inherit; }
         buildDashboard();
     }
     function sortPlayers(arr, gKey) {
-        var st=tableSortState[gKey], keys=["g","a","b","ht","ct","f"];
+        var st=tableSortState[gKey], keys=["g","a","b","ht","ct"];
         return arr.slice().sort(function(a,b){
             var av,bv;
             if(st.index===0){av=a.name;bv=b.name;return st.dir==="asc"?av.localeCompare(bv):bv.localeCompare(av);}
@@ -762,7 +764,7 @@ button, input, textarea, select { font: inherit; }
             var av, bv;
             if (st.index === 0) { av = a.name; bv = b.name; return st.dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av); }
             if (st.index === 1) { av = a.gender; bv = b.gender; return st.dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av); }
-            var keys = ["gp","g","a","b","ht","ct","f"];
+            var keys = ["gp","g","a","b","ht","ct"];
             av = a[keys[st.index - 2]]; bv = b[keys[st.index - 2]];
             return av !== bv ? (st.dir === "asc" ? av - bv : bv - av) : a.name.localeCompare(b.name);
         });
@@ -780,10 +782,11 @@ button, input, textarea, select { font: inherit; }
     }
 
     function buildDashboard() {
-        document.getElementById("weekDisplayTitle").innerText = "Week " + activeWeek + " Breakdown";
-        document.getElementById("weeklyLeadersTitle").innerText = "🏆 Week " + activeWeek + " Leaders (Top 5 Rankings)";
+        var weekLabels = {1:"Week 1 (9/14)",2:"Week 2 (9/21)",3:"Week 3 (9/28)",4:"Week 4 (10/5)",5:"Week 5 (10/19)",6:"Week 6 - Game 1 (10/26)",7:"Week 6 - Game 2 (10/26)"};
+        document.getElementById("weekDisplayTitle").innerText = (weekLabels[activeWeek] || ("Week " + activeWeek)) + " Breakdown";
+        document.getElementById("weeklyLeadersTitle").innerText = "🏆 " + (weekLabels[activeWeek] || ("Week " + activeWeek)) + " Leaders (Top 5 Rankings)";
         var weekStats = {}; var globalSeasonStats = {}; var weeklyDuoStats = {}; var seasonDuoStats = {}; var matchKeys = ["g1", "g2"];
-        Object.keys(leagueData).forEach(function(wKey) {
+        Object.keys(leagueData).filter(function(k){return parseInt(k.slice(1),10)<=7;}).forEach(function(wKey) {
             var wNum = parseInt(wKey.replace("w", ""));
             matchKeys.forEach(function(gKey) {
                 var match = leagueData[wKey] && leagueData[wKey][gKey]; if (!match) return; var gameStats = parseStats(match.raw || "", getUnassignedEvents(wNum, gKey));
@@ -830,7 +833,7 @@ button, input, textarea, select { font: inherit; }
                             var arr = rosterStats.filter(function(p){return p.team===team && p.gender===gen;});
                             arr = sortPlayers(arr, gKey);
                             tHtml += "<tr><td colspan='8' class='table-subgroup-header'>" + gen + "</td></tr>";
-                            arr.forEach(function(p){ tHtml += "<tr><td style='padding-left:20px;'><strong>"+escapeHtml(p.name)+"</strong></td><td>"+p.gender+"</td><td>"+p.g+"</td><td>"+p.a+"</td><td>"+p.b+"</td><td>"+p.ht+"</td><td>"+p.ct+"</td><td>"+p.f+"</td></tr>"; });
+                            arr.forEach(function(p){ tHtml += "<tr><td style='padding-left:20px;'><strong>"+escapeHtml(p.name)+"</strong></td><td>"+p.gender+"</td><td>"+p.g+"</td><td>"+p.a+"</td><td>"+p.b+"</td><td>"+p.ht+"</td><td>"+p.ct+"</td></tr>"; });
 
                             // Put this team's total immediately after its FMP players,
                             // before the next team's stats begin.
@@ -845,7 +848,7 @@ button, input, textarea, select { font: inherit; }
                                 // a log contains a scorer who is not currently on the roster.
                                 var gameScore = getGameScore(match);
                                 if (gameScore) totals.g = (team === match.t1 ? gameScore.a : gameScore.b);
-                                tHtml += "<tr class='team-total-row'><td colspan='2' class='team-total-label'>" + escapeHtml(team) + " Total</td><td>" + totals.g + "</td><td>" + totals.a + "</td><td>" + totals.b + "</td><td>" + totals.ht + "</td><td>" + totals.ct + "</td><td>" + totals.f + "</td></tr>";
+                                tHtml += "<tr class='team-total-row'><td colspan='2' class='team-total-label'>" + escapeHtml(team) + " Total</td><td>" + totals.g + "</td><td>" + totals.a + "</td><td>" + totals.b + "</td><td>" + totals.ht + "</td><td>" + totals.ct + "</td></tr>";
                             }
                         });
                     });
@@ -1084,12 +1087,12 @@ button, input, textarea, select { font: inherit; }
         standingTeams.slice().sort(function(a,b){ var sa=standings[a], sb=standings[b]; if (sb.wins!==sa.wins) return sb.wins-sa.wins; if (sa.losses!==sb.losses) return sa.losses-sb.losses; return sb.pointsFor-sa.pointsFor; }).forEach(function(team){
             var st = standings[team];
             standingsHtml += "<tr><td class='season-standings-team' style='color:" + (teamColors[team]||'#374151') + ";'>" + escapeHtml(team) + "</td><td class='season-record'>" + st.wins + "-" + st.losses + "</td>";
-            for (var w=1; w<=8; w++) standingsHtml += "<td class='season-score'>" + (st.weeks[w] || "—") + "</td>";
+            for (var w=1; w<=7; w++) standingsHtml += "<td class='season-score'>" + (st.weeks[w] || "—") + "</td>";
             standingsHtml += "</tr>";
         });
         document.getElementById("seasonStandings").innerHTML = standingsHtml;
 
-        var seasonTotalsHtml = ""; Object.keys(rosters).forEach(function(team){ var t = seasonTeamTotals[team] || {g:0,a:0,b:0,ht:0,ct:0,f:0}; seasonTotalsHtml += "<div class='season-team-total-card'><div class='season-team-total-name' style='color:" + (teamColors[team]||'#374151') + ";'>" + escapeHtml(team) + "</div><div class='season-team-total-grid'><div class='season-team-total-stat'>Score<strong>" + t.g + "</strong></div><div class='season-team-total-stat'>Assist<strong>" + t.a + "</strong></div><div class='season-team-total-stat'>Block<strong>" + t.b + "</strong></div><div class='season-team-total-stat'>Handler Turnover<strong>" + t.ht + "</strong></div><div class='season-team-total-stat'>Cutter Turnover<strong>" + t.ct + "</strong></div><div class='season-team-total-stat'>Fouls<strong>" + t.f + "</strong></div></div></div>"; });
+        var seasonTotalsHtml = ""; Object.keys(rosters).forEach(function(team){ var t = seasonTeamTotals[team] || {g:0,a:0,b:0,ht:0,ct:0,f:0}; seasonTotalsHtml += "<div class='season-team-total-card'><div class='season-team-total-name' style='color:" + (teamColors[team]||'#374151') + ";'>" + escapeHtml(team) + "</div><div class='season-team-total-grid'><div class='season-team-total-stat'>Score<strong>" + t.g + "</strong></div><div class='season-team-total-stat'>Assist<strong>" + t.a + "</strong></div><div class='season-team-total-stat'>Block<strong>" + t.b + "</strong></div><div class='season-team-total-stat'>Handler Turnover<strong>" + t.ht + "</strong></div><div class='season-team-total-stat'>Cutter Turnover<strong>" + t.ct + "</strong></div></div></div>"; });
         document.getElementById("seasonTeamTotals").innerHTML = seasonTotalsHtml;
 
         // Every rostered player with all season totals, separated into MMP and FMP like the weekly stat tables.
@@ -1099,16 +1102,16 @@ button, input, textarea, select { font: inherit; }
             ["Men","Women"].forEach(function(div){
                 rosters[team][div].forEach(function(name){ players.push({ name:name, gender:div === "Men" ? "MMP" : "FMP", g:0,a:0,b:0,ht:0,ct:0,f:0,gp:0 }); });
             });
-            Object.keys(leagueData).forEach(function(wKey){ matchKeys.forEach(function(gKey){ var game = leagueData[wKey] && leagueData[wKey][gKey]; if (!game) return; var participants=getGameParticipants(parseInt(wKey.replace("w","")),gKey); players.forEach(function(pl){if(participants.indexOf(pl.name)!==-1)pl.gp+=1;}); var gs = parseStats(game.raw || "", getUnassignedEvents(parseInt(wKey.replace("w","")), gKey)); Object.keys(gs).forEach(function(pKey){ var p=gs[pKey]; if(p.team !== team) return; for(var pi=0;pi<players.length;pi++){ if(players[pi].name===p.name){ players[pi].g+=p.g; players[pi].a+=p.a; players[pi].b+=p.b; players[pi].ht+=p.ht; players[pi].ct+=p.ct; players[pi].f+=p.f; break; } } }); }); });
+            Object.keys(leagueData).filter(function(k){return parseInt(k.slice(1),10)<=7;}).forEach(function(wKey){ matchKeys.forEach(function(gKey){ var game = leagueData[wKey] && leagueData[wKey][gKey]; if (!game) return; var participants=getGameParticipants(parseInt(wKey.replace("w","")),gKey); players.forEach(function(pl){if(participants.indexOf(pl.name)!==-1)pl.gp+=1;}); var gs = parseStats(game.raw || "", getUnassignedEvents(parseInt(wKey.replace("w","")), gKey)); Object.keys(gs).forEach(function(pKey){ var p=gs[pKey]; if(p.team !== team) return; for(var pi=0;pi<players.length;pi++){ if(players[pi].name===p.name){ players[pi].g+=p.g; players[pi].a+=p.a; players[pi].b+=p.b; players[pi].ht+=p.ht; players[pi].ct+=p.ct; players[pi].f+=p.f; break; } } }); }); });
             rosterSeasonHtml += "<div class='season-roster-team'><div class='season-roster-team-title' style='color:" + (teamColors[team]||'#374151') + ";'>" + escapeHtml(team) + "</div>";
             var tableId = "season-roster-table-" + teamIndex;
             rosterSeasonHtml += "<div class='season-roster-table-wrap'><table id='" + tableId + "' class='season-roster-table'><thead><tr>" +
-                "<th onclick='sortSeasonRoster(" + teamIndex + ",0)'>Player</th><th onclick='sortSeasonRoster(" + teamIndex + ",1)'>Gender</th><th onclick='sortSeasonRoster(" + teamIndex + ",2)'>Games Played</th><th onclick='sortSeasonRoster(" + teamIndex + ",3)'>Score</th><th onclick='sortSeasonRoster(" + teamIndex + ",4)'>Assist</th><th onclick='sortSeasonRoster(" + teamIndex + ",5)'>Block</th><th onclick='sortSeasonRoster(" + teamIndex + ",6)'>Handler Turnover</th><th onclick='sortSeasonRoster(" + teamIndex + ",7)'>Cutter Turnover</th><th onclick='sortSeasonRoster(" + teamIndex + ",8)'>Fouls</th></tr></thead><tbody>";
+                "<th onclick='sortSeasonRoster(" + teamIndex + ",0)'>Player</th><th onclick='sortSeasonRoster(" + teamIndex + ",1)'>Gender</th><th onclick='sortSeasonRoster(" + teamIndex + ",2)'>Games Played</th><th onclick='sortSeasonRoster(" + teamIndex + ",3)'>Score</th><th onclick='sortSeasonRoster(" + teamIndex + ",4)'>Assist</th><th onclick='sortSeasonRoster(" + teamIndex + ",5)'>Block</th><th onclick='sortSeasonRoster(" + teamIndex + ",6)'>Handler Turnover</th><th onclick='sortSeasonRoster(" + teamIndex + ",7)'>Cutter Turnover</th></tr></thead><tbody>";
             ["MMP","FMP"].forEach(function(gen){
                 var arr = players.filter(function(p){ return p.gender === gen; });
                 arr = sortSeasonRosterPlayers(arr, teamIndex);
                 rosterSeasonHtml += "<tr><td colspan='9' class='table-subgroup-header'>" + gen + "</td></tr>";
-                arr.forEach(function(p){ rosterSeasonHtml += "<tr><td style='padding-left:20px;'><strong>" + escapeHtml(p.name) + "</strong></td><td class='gender-label'>" + p.gender + "</td><td>" + p.gp + "</td><td>" + p.g + "</td><td>" + p.a + "</td><td>" + p.b + "</td><td>" + p.ht + "</td><td>" + p.ct + "</td><td>" + p.f + "</td></tr>"; });
+                arr.forEach(function(p){ rosterSeasonHtml += "<tr><td style='padding-left:20px;'><strong>" + escapeHtml(p.name) + "</strong></td><td class='gender-label'>" + p.gender + "</td><td>" + p.gp + "</td><td>" + p.g + "</td><td>" + p.a + "</td><td>" + p.b + "</td><td>" + p.ht + "</td><td>" + p.ct + "</td></tr>"; });
             });
             rosterSeasonHtml += "</tbody></table></div></div>";
         });
